@@ -19,19 +19,10 @@ namespace Bourdon_test
             InitializeComponent();
         }
 
-        private Guid user_id = Guid.Empty;
-        private string user_login = string.Empty;
-        private string password_table = string.Empty;
-        private string user_role = string.Empty;
-
         // При загрузке приложения
         private void Form_log_in_Load(object sender, EventArgs e)
         {
-            checkBox_showPassword.Checked = true; // пароль скрыт по умолчанию
-            this.label_status.Visible = false;
-            global.canLogin = true;
-            global.loginCount = 0;
-            global.loginMaxCount = 3;
+            checkBox_showPassword.Checked = false; // пароль скрыт по умолчанию
         }
 
         // кнопка ВХОД
@@ -39,80 +30,65 @@ namespace Bourdon_test
         {
             this.btn_entry.Enabled = false;
             this.Cursor = Cursors.AppStarting;
-
+            txt_login.Enabled = false;
+            txt_password.Enabled = false;
+            Database db;
+            int resultAuthorization = 0; 
             try
             {
-                NpgsqlConnection conn = new NpgsqlConnection(global.connectionString);
-                try
+                db = new Database();
+                resultAuthorization = db.authorization(txt_login.Text, txt_password.Text, out string errorMessage, out User userObject);
+                
+                if (resultAuthorization == 0) // код ошибки или неверного пароля
                 {
-                    conn.Open();
+                    throw new Exception(errorMessage);
                 }
-                catch (Exception err)
+                else if(resultAuthorization == 1) // вход как пользователь
                 {
-                    this.btn_entry.Enabled = true;
-                    this.Cursor = Cursors.Arrow;
-                    MessageBox.Show("Не удалось установить соединение с базой данных!\nПожалуйста, повторите попытку позже...", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                    return;
+                    Form_menu_user formUser = new Form_menu_user(userObject);
+                    formUser.Show(this);
+                    this.Hide();
                 }
-
-                NpgsqlCommand n = new NpgsqlCommand("SELECT id, TRIM(login), TRIM(password), TRIM(role), canlogin FROM pmib6602.users WHERE TRIM(login) = TRIM(@login);", conn);
-
-                n.Parameters.AddWithValue("login", txt_login.Text);
-
-                var sqlReader = n.ExecuteReader();
-
-                if(sqlReader.Read() == false) // если введенный логин не найден
+                else if (resultAuthorization == 2) // если есть права администратора
                 {
-                    this.btn_entry.Enabled = true;
-                    this.Cursor = Cursors.Arrow;
-                    conn.Close();
-                    this.label_status.Visible = true;
-                    return;
+                    string text = "Вы имеете права администратора. Войти как админиcтратор?\n\nДА - войти как администратор\nНЕТ- войти как пользователь";
+                    DialogResult answer = MessageBox.Show(text, "Выбор", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+                    if(answer == DialogResult.Yes) // войти как администратор
+                    {
+                        Form_menu_admin formAdmin = new Form_menu_admin(userObject);
+                        formAdmin.Show(this);
+                        this.Hide();
+                    }
+                    else if (answer == DialogResult.No) // войти как пользователь
+                    {
+                        Form_menu_user formUser = new Form_menu_user(userObject);
+                        formUser.Show(this);
+                        this.Hide();
+                    }
                 }
-                user_id = sqlReader.GetGuid(0);
-                user_login = sqlReader.GetString(1).ToLower();
-                password_table = sqlReader.GetString(2).ToLower();
-                user_role = sqlReader.GetString(3).ToLower();
-                global.canLogin = sqlReader.GetBoolean(4);
-                conn.Close();
+                this.btn_entry.Enabled = true;
+                this.Cursor = Cursors.Arrow;
+                txt_login.Enabled = true;
+                txt_password.Enabled = true;
+                txt_password.Text = "";
             }
             catch(Exception error)
             {
-                //MessageBox.Show(error.Message);
+                MessageBox.Show(error.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                this.btn_entry.Enabled = true;
+                this.Cursor = Cursors.Arrow;
+                txt_login.Enabled = true;
+                txt_password.Enabled = true;
+                txt_password.Text = "";
+                return;
             }
-
-            string password_form = Database.getHash(txt_password.Text);
-
-            bool passwordComplete = false;
-
-            /*if(password_table == password_form)
-            {
-                Form_browser form = new Form_browser(user_id, user_login, user_role);
-                form.Show(this);
-                this.Hide();
-                passwordComplete = true;
-            }
-            else
-            {
-                passwordComplete = false;
-                this.label_status.Visible = true;
-            }*/
-
-            // если loginMaxCount и больше раз ввели неправильно то в БД заносим 
-            if(global.loginCount >= global.loginMaxCount && passwordComplete == false)
-            {
-                global.canLogin = false;
-                this.nextLoginWitnCaptcha(global.canLogin); // Устанавливаем в БД следующий вход с капчей
-            }
-                
-            this.btn_entry.Enabled = true;
-            this.Cursor = Cursors.Arrow;
         }
 
         // Пароль показать
         private void checkBox_showPassword_CheckedChanged(object sender, EventArgs e)
         {
-            if(this.checkBox_showPassword.Checked == false)
+            if(this.checkBox_showPassword.Checked == true)
             {
                 this.txt_password.UseSystemPasswordChar = false;
                 this.checkBox_showPassword.Text = "Пароль виден";
@@ -124,52 +100,10 @@ namespace Bourdon_test
             }
         }
 
-        // функции запрета входа без капчи
-        private void nextLoginWitnCaptcha(bool canlogin)
-        {
-            try
-            {
-                NpgsqlConnection conn = new NpgsqlConnection(global.connectionString);
-                try
-                {
-                    conn.Open();
-                }
-                catch(Exception err)
-                {
-                    //MessageBox.Show("Не удалось установить соединение с базой данных!\nПожалуйста, повторите попытку позже...", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                    return;
-                }
-
-                NpgsqlCommand n = new NpgsqlCommand("UPDATE pmib6602.users SET canlogin = @canlogin WHERE TRIM(login) = TRIM(@login);", conn);
-
-                n.Parameters.AddWithValue("canlogin", canlogin);
-                n.Parameters.AddWithValue("login", user_login);
-
-                int stringcount = n.ExecuteNonQuery();
-            }
-            catch(Exception error)
-            {
-
-            }
-        }
-
-        // Если меняем логин
-        private void txt_login_TextChanged(object sender, EventArgs e)
-        {
-            this.label_status.Visible = false;
-        }
-
-        // Если меняем пароль
-        private void txt_password_TextChanged(object sender, EventArgs e)
-        {
-            this.label_status.Visible = false;
-        }
-
-
         // отладочная кнопка  // выключена для пользователей (visible = false)
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+            /*try
             {
                 NpgsqlConnection conn = new NpgsqlConnection(global.connectionString);
                 try
@@ -193,7 +127,7 @@ namespace Bourdon_test
             catch(Exception error)
             {
                 MessageBox.Show(error.Message);
-            }
+            }*/
         }
     }
 }

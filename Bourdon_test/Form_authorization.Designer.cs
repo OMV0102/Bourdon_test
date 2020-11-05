@@ -36,7 +36,6 @@
             this.checkBox_showPassword = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.label_status = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txt_login
@@ -49,7 +48,6 @@
             this.txt_login.Size = new System.Drawing.Size(415, 29);
             this.txt_login.TabIndex = 0;
             this.txt_login.TabStop = false;
-            this.txt_login.TextChanged += new System.EventHandler(this.txt_login_TextChanged);
             // 
             // btn_entry
             // 
@@ -74,7 +72,6 @@
             this.txt_password.Size = new System.Drawing.Size(415, 29);
             this.txt_password.TabIndex = 2;
             this.txt_password.TabStop = false;
-            this.txt_password.TextChanged += new System.EventHandler(this.txt_password_TextChanged);
             // 
             // label1
             // 
@@ -99,13 +96,15 @@
             // checkBox_showPassword
             // 
             this.checkBox_showPassword.AutoSize = true;
+            this.checkBox_showPassword.Checked = true;
+            this.checkBox_showPassword.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_showPassword.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBox_showPassword.Location = new System.Drawing.Point(373, 167);
             this.checkBox_showPassword.Name = "checkBox_showPassword";
-            this.checkBox_showPassword.Size = new System.Drawing.Size(135, 24);
+            this.checkBox_showPassword.Size = new System.Drawing.Size(137, 24);
             this.checkBox_showPassword.TabIndex = 5;
             this.checkBox_showPassword.TabStop = false;
-            this.checkBox_showPassword.Text = "Пароль скрыт";
+            this.checkBox_showPassword.Text = "Пароль виден";
             this.checkBox_showPassword.UseVisualStyleBackColor = true;
             this.checkBox_showPassword.CheckedChanged += new System.EventHandler(this.checkBox_showPassword_CheckedChanged);
             // 
@@ -131,23 +130,12 @@
             this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label_status
-            // 
-            this.label_status.AutoSize = true;
-            this.label_status.ForeColor = System.Drawing.Color.Red;
-            this.label_status.Location = new System.Drawing.Point(118, 242);
-            this.label_status.Name = "label_status";
-            this.label_status.Size = new System.Drawing.Size(294, 20);
-            this.label_status.TabIndex = 8;
-            this.label_status.Text = "Указаны неверные логин или пароль!";
-            // 
             // Form_authorization
             // 
             this.AcceptButton = this.btn_entry;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 281);
-            this.Controls.Add(this.label_status);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.checkBox_showPassword);
@@ -181,6 +169,5 @@
         private System.Windows.Forms.CheckBox checkBox_showPassword;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label_status;
     }
 }

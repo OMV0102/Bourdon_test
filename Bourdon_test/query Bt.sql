@@ -3,29 +3,34 @@
 CREATE TABLE IF NOT EXISTS public.users
 (
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    login char(255) NOT NULL UNIQUE,
-	surname char(255) NOT NULL,
-	name char(255) NOT NULL,
-	patronymic char(255) NOT NULL,
-    password char(255) NOT NULL,
-    role char(255) NOT NULL,
-    canlogin boolean NOT NULL DEFAULT 'true'::boolean
+    login varchar(255) NOT NULL UNIQUE,
+    surname varchar(255),
+    name varchar(255),
+    patronymic varchar(255),
+    birthday timestamp,
+    sex boolean DEFAULT 'true'::boolean,
+    role varchar(255) NOT NULL,
+    email varchar(255),
+    created_date timestamp DEFAULT now()::timestamp,
+    created_by uuid NOT NULL REFERENCES public.users(id),
 );
-INSERT INTO public.users (login, password, role) VALUES (@login, @password, @role);
-SELECT id, login, password, role FROM pmib6602.users WHERE TRIM(login) = TRIM(@login);
+--INSERT INTO public.users (login, password, role) VALUES (@login, @password, @role);
+--SELECT id, login, password, role FROM public.users WHERE TRIM(login) = TRIM(@login);
 
 
 
-CREATE TABLE IF NOT EXISTS public.search_default
+CREATE TABLE IF NOT EXISTS public.results
 (
-    id uuid NOT NULL UNIQUE REFERENCES pmib6602.users(id),
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    created_date timestamp DEFAULT now()::timestamp,
+    user_id uuid NOT NULL REFERENCES public.users(id),
     link text NOT NULL
 );
 ALTER TABLE pmib6602.search_default ADD CONSTRAINT unique_id_link_searchdefault UNIQUE (id, link);
 
 
 
-CREATE TABLE IF NOT EXISTS pmib6602.user_history
+CREATE TABLE IF NOT EXISTS public.user_history
 (
     id uuid NOT NULL REFERENCES pmib6602.users(id),
     link text NOT NULL DEFAULT 'google.com'
@@ -36,8 +41,8 @@ SELECT * FROM pmib6602.user_history;
 
 
 
-
-CREATE OR REPLACE FUNCTION pmib6602.get_uuid()
+/*
+CREATE OR REPLACE FUNCTION public.get_uuid()
 RETURNS uuid AS
 $body$
 DECLARE
@@ -82,6 +87,6 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
-
+*/
 
 
