@@ -24,62 +24,95 @@ namespace Bourdon_test
         }
 
         // Открыть соединение к БД (строка подключения)
-        private NpgsqlConnection openConnection(string connString, out string errorMessage) 
+        // Возвращается false
+        private bool openConnection(string connString, out NpgsqlConnection conn, out string errorMessage) 
         {
-            NpgsqlConnection conn = null;
-            errorMessage = "";
+            conn = null;
+            errorMessage = string.Empty;
             try
             {
                 conn = new NpgsqlConnection(connString);
                 conn.Open();
-                if (conn.FullState != ConnectionState.Open) throw new Exception();
+                if (conn == null || conn.FullState != ConnectionState.Open)
+                    throw new Exception();
+                else return true;
             }
             catch (Exception)
             {
                 errorMessage = "Не удалось установить соединение с базой данных!\nПожалуйста, повторите попытку позже...";
+                return false;
             }
-            return conn;
         }
 
+        // Авторизация по логину и паролю
         public int authorization(string login, string password, out string errorMessage, out User userObject) 
         {
-
-            Guid user_id = Guid.Empty;
-            string user_login = string.Empty;
-            string password_table = string.Empty;
-            string user_role = string.Empty;
             errorMessage = "";
             userObject = null;
+            NpgsqlConnection conn = null;
 
             try
             {
-                NpgsqlConnection conn = this.openConnection(Database.connectionString, out errorMessage);
-                if (conn.FullState != ConnectionState.Open)
+                if (this.openConnection(Database.connectionString, out conn, out errorMessage) == false)
                 {
                     throw new Exception(errorMessage);
                 }
-
-                NpgsqlCommand query = new NpgsqlCommand("SELECT id, TRIM(login), TRIM(password), TRIM(role), canlogin FROM pmib6602.users WHERE TRIM(login) = TRIM(@login);", conn);
-
-                query.Parameters.AddWithValue("login", login);
-
-                var sqlReader = query.ExecuteReader();
-
-                if (sqlReader.Read() == false) // если введенный пользователь не найден
+                NpgsqlCommand query = null;
+                NpgsqlDataReader sqlReader = null;
+                try
                 {
-
-                    conn.Close();
-
+                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, sex, role, email, password, organization FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
+                    query.Parameters.AddWithValue("login", login);
+                    sqlReader = query.ExecuteReader();
                 }
-                user_id = sqlReader.GetGuid(0);
-                user_login = sqlReader.GetString(1).ToLower();
-                password_table = sqlReader.GetString(2).ToLower();
-                user_role = sqlReader.GetString(3).ToLower();
+                catch (Exception error)
+                {
+                    throw new Exception("Ошибка доступа к базе данных!\nПожалуйста, повторите попытку позже...");
+                }
 
-                conn.Close();
+                if (sqlReader.Read() == false) // если введенный логин не найден
+                {
+                    throw new Exception("Неверные логин или пароль!");
+                }
+                else
+                    try
+                    {
+                        if (this.getHash(password) != sqlReader.GetString(9).ToLower()) // если введенный пароль не совпал
+                        {
+                            throw new Exception("Неверные логин или пароль!");
+                        }
+                        else
+                        {
+                            userObject = new User();
+                            userObject.id = sqlReader.GetGuid(0);
+                            userObject.login = login;
+                            userObject.surname = sqlReader.GetString(2);
+                            userObject.name = sqlReader.GetString(3);
+                            userObject.patronymic = sqlReader.GetString(4);
+                            userObject.birthday = sqlReader.GetDateTime(5);
+                            userObject.sex = sqlReader.GetBoolean(6);
+                            userObject.role = sqlReader.GetString(7);
+                            userObject.email = sqlReader.GetString(8);
+                            userObject.organization = sqlReader.GetString(10);
+
+                            if (conn != null) conn.Close();
+
+                            if (userObject.role == "user")
+                                return 1;
+
+                            if (userObject.role == "admin")
+                                return 2;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("Ошибка получения данных из базы данных!\nПожалуйста, повторите попытку позже...");
+                    }
             }
             catch(Exception error)
             {
+                conn = null;
+                if(conn != null) conn.Close();
                 errorMessage = error.Message;
                 return 0;
             }

@@ -19,5 +19,10 @@ namespace Bourdon_test
         }
 
         private User user;
+
+        private void btnRegisterUser_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
