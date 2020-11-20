@@ -8,10 +8,11 @@ CREATE TABLE IF NOT EXISTS public.users
     name varchar(255),
     patronymic varchar(255),
     birthday timestamp,
-    sex boolean DEFAULT 'true'::boolean,
-    role varchar(255) NOT NULL,
+    gender boolean DEFAULT 'true'::boolean,
+    role varchar(255) NOT NULL DEFAULT 'user',
     email varchar(255),
     password varchar(255),
+    position varchar(255),
 	organization varchar(255),
     created_date timestamp DEFAULT now()::timestamp,
     created_by uuid NOT NULL REFERENCES public.users(id)

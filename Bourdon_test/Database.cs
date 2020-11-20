@@ -61,7 +61,7 @@ namespace Bourdon_test
                 NpgsqlDataReader sqlReader = null;
                 try
                 {
-                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, sex, role, email, password, organization FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
+                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, gender, role, email, password, organization FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
                     query.Parameters.AddWithValue("login", login);
                     sqlReader = query.ExecuteReader();
                 }
@@ -90,7 +90,7 @@ namespace Bourdon_test
                             userObject.name = sqlReader.GetString(3);
                             userObject.patronymic = sqlReader.GetString(4);
                             userObject.birthday = sqlReader.GetDateTime(5);
-                            userObject.sex = sqlReader.GetBoolean(6);
+                            userObject.gender = sqlReader.GetBoolean(6);
                             userObject.role = sqlReader.GetString(7);
                             userObject.email = sqlReader.GetString(8);
                             userObject.organization = sqlReader.GetString(10);
@@ -118,6 +118,53 @@ namespace Bourdon_test
             }
             
             return 0;
+        }
+
+        // Добавление новго пользователя
+        public bool registerNewUser(User user, out string errorMessage)
+        {
+            errorMessage = "";
+            NpgsqlConnection conn = null;
+
+            try
+            {
+                if (this.openConnection(Database.connectionString, out conn, out errorMessage) == false)
+                {
+                    throw new Exception(errorMessage);
+                }
+                NpgsqlCommand query = null;
+                try
+                {
+                    query = new NpgsqlCommand("INSERT INTO public.users (login, surname, name, patronymic, birthday, gender, email, password, position, organization, created_by) VALUES (@login, @surname, @name, @patronymic, @birthday::timestamp, @gender::boolean, @email, @password, @position, @organization, @created_by::uuid, @role);", conn);
+                    query.Parameters.AddWithValue("login", user.login);
+                    query.Parameters.AddWithValue("surname", user.surname);
+                    query.Parameters.AddWithValue("name", user.name);
+                    query.Parameters.AddWithValue("patronymic", user.patronymic);
+                    query.Parameters.AddWithValue("birthday", user.birthday.ToString());
+                    query.Parameters.AddWithValue("gender", user.gender);
+                    query.Parameters.AddWithValue("email", user.email);
+                    query.Parameters.AddWithValue("password", this.getHash(user.login));
+                    query.Parameters.AddWithValue("position", user.position);
+                    query.Parameters.AddWithValue("organization", user.organization);
+                    query.Parameters.AddWithValue("created_by", user.createdBy);
+                    query.Parameters.AddWithValue("role", "user");
+                    query.ExecuteNonQuery();
+
+                    return true;
+                }
+                catch (Exception error)
+                {
+                    throw new Exception("Ошибка доступа к базе данных при добавлении записи пользователя!\n");
+                }
+
+            }
+            catch(Exception error)
+            {
+                conn = null;
+                if (conn != null) conn.Close();
+                errorMessage = error.Message;
+                return false;
+            }
         }
     }
 }

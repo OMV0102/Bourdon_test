@@ -19,5 +19,24 @@ namespace Bourdon_test
         }
 
         private User user;
+
+        // загрузка формы
+        private void Form_menu_user_Load(object sender, EventArgs e)
+        {
+            lblName.Text = this.user.surname + " " + this.user.name[0] + ".";
+            if (this.user.patronymic != String.Empty) lblName.Text += this.user.patronymic[0] + ".";
+        }
+
+        // кнопка Выход
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Owner.Close();
+        }
+
+        // перетаскивание окна по экрану
+        private void Form_menu_user_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }

@@ -15,14 +15,37 @@ namespace Bourdon_test
         public Form_menu_admin(User userObject)
         {
             InitializeComponent();
-            user = userObject;
+            this.user = userObject;
         }
 
         private User user;
 
         private void btnRegisterUser_Click(object sender, EventArgs e)
         {
+            Form_register_user formRegisterUser = new Form_register_user(user.id);
+            formRegisterUser.Show(this);
+            this.Hide();
+        }
 
+        // перетаскивание окна по экрану
+        private void Form_menu_admin_MouseDown(object sender, MouseEventArgs e)
+        {
+            base.Capture = false;
+            Message m = Message.Create(base.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
+            this.WndProc(ref m);
+        }
+
+        // кнопка Выход
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Owner.Close();
+        }
+
+        // загрузка формы
+        private void Form_menu_admin_Load(object sender, EventArgs e)
+        {
+            lblName.Text = this.user.surname + " " + this.user.name[0] + ".";
+            if (this.user.patronymic != String.Empty) lblName.Text += this.user.patronymic[0] + ".";
         }
     }
 }

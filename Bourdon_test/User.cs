@@ -8,17 +8,25 @@ namespace Bourdon_test
 {
     public class User
     {
-        // ПОля класса и дефолтные значения
+        // Поля класса и дефолтные значения
         public Guid id = Guid.Empty;
         public string login = string.Empty;
         public string surname = string.Empty;
         public string name = string.Empty;
         public string patronymic = string.Empty;
         public DateTime birthday = DateTime.Parse("01.01.1970");
-        public bool sex = true;
+        public bool gender = true;
         public string role = "user";
         public string email = string.Empty;
-        public string organization = "user";
+        public string position = String.Empty;
+        public string organization = String.Empty;
+        public Guid createdBy = Guid.Empty;
 
+        public User() { }
+
+        public User(Guid idCreatedBy)
+        {
+            this.createdBy = idCreatedBy;
+        }
     }
 }
