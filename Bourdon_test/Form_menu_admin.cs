@@ -47,5 +47,11 @@ namespace Bourdon_test
             lblName.Text = this.user.surname + " " + this.user.name[0] + ".";
             if (this.user.patronymic != String.Empty) lblName.Text += this.user.patronymic[0] + ".";
         }
+
+        // кнопка Редактирование пользователей
+        private void btnEditUser_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -27,16 +27,26 @@ namespace Bourdon_test
             if (this.user.patronymic != String.Empty) lblName.Text += this.user.patronymic[0] + ".";
         }
 
+        // перетаскивание окна по экрану
+        private void Form_menu_user_MouseDown(object sender, MouseEventArgs e)
+        {
+            base.Capture = false;
+            Message m = Message.Create(base.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
+            this.WndProc(ref m);
+        }
+
         // кнопка Выход
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Owner.Close();
         }
 
-        // перетаскивание окна по экрану
-        private void Form_menu_user_MouseDown(object sender, MouseEventArgs e)
+        //кнопка Пройти Тест
+        private void btnTest_Click(object sender, EventArgs e)
         {
-
+            Form_test formTest = new Form_test(user);
+            formTest.Show(this);
+            this.Hide();
         }
     }
 }

@@ -72,6 +72,7 @@
             this.btnEditUser.TabStop = false;
             this.btnEditUser.Text = "Редактирование пользователей";
             this.btnEditUser.UseVisualStyleBackColor = true;
+            this.btnEditUser.Click += new System.EventHandler(this.btnEditUser_Click);
             // 
             // lblName
             // 

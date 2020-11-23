@@ -28,19 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
             this.lblName = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // btnTest
             // 
-            this.button1.Location = new System.Drawing.Point(80, 92);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(154, 37);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Пройти тест";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnTest.Location = new System.Drawing.Point(80, 92);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(154, 37);
+            this.btnTest.TabIndex = 0;
+            this.btnTest.Text = "Пройти тест";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // lblName
             // 
@@ -71,7 +72,7 @@
             this.ClientSize = new System.Drawing.Size(336, 393);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblName);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnTest);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(6);
@@ -86,7 +87,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnExit;
     }

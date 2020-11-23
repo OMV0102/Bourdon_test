@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.results
 ALTER TABLE pmib6602.search_default ADD CONSTRAINT unique_id_link_searchdefault UNIQUE (id, link);
 
 
-
+/*
 CREATE TABLE IF NOT EXISTS public.user_history
 (
     id uuid NOT NULL REFERENCES pmib6602.users(id),
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS public.user_history
 );
 ALTER TABLE pmib6602.user_history ADD CONSTRAINT unique_id_link_userhistory UNIQUE (id, link);
 SELECT * FROM pmib6602.user_history;
-
+*/
 
 
 
