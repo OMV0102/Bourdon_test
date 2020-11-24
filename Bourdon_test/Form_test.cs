@@ -19,6 +19,7 @@ namespace Bourdon_test
         }
 
         private User user;
+        private Test test;
 
         // перетаскивание окна по экрану
         private void Form_test_MouseDown(object sender, MouseEventArgs e)
@@ -31,7 +32,7 @@ namespace Bourdon_test
         // при загрузке формы
         private void Form_test_Load(object sender, EventArgs e)
         {
-
+            test = new Test();
         }
     }
 }

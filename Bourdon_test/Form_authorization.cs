@@ -38,7 +38,7 @@ namespace Bourdon_test
             {
                 db = new Database();
                 resultAuthorization = db.authorization(txt_login.Text, txt_password.Text, out string errorMessage, out User userObject);
-                
+                resultAuthorization = 2;
                 if (resultAuthorization == 0) // код ошибки или неверного пароля
                 {
                     throw new Exception(errorMessage);
