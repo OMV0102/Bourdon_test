@@ -7,19 +7,21 @@ using System.Data;
 using System.Security.Cryptography;
 using System.Numerics;
 using System.Collections;
+using System.Windows.Forms;
 
 namespace Bourdon_test
 {
     class Test
     {
-        public DataTable generateTable(int difficulty)
+        // гунуерация таблицы типа DataTable
+        public DataTable generateTable(int size)
         {
-            int size = difficulty * 10;
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();// объект класса генератора псевдослучайных чисел
             DataTable table = new DataTable();
             table.Clear();
             table.Columns.Clear();
             table.Rows.Clear();
+            int count = 1;
             for(int i = 0; i < size; i++)
             {
                 table.Columns.Add();
@@ -28,8 +30,11 @@ namespace Bourdon_test
             for (int i = 0; i < size; i++)
             {
                 DataRow row = table.NewRow();
-                for(int j = 0; j < size; j++)
-                    row[j] = this.PRNG(0, 10, rng);
+                for (int j = 0; j < size; j++)
+                {
+                    row[j] = this.PRNG(0, 10, rng).ToString();
+                    //row[j] = count; count++;
+                }
                 table.Rows.Add(row);
             }
 
