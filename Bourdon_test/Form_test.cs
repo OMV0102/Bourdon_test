@@ -33,6 +33,38 @@ namespace Bourdon_test
         private void Form_test_Load(object sender, EventArgs e)
         {
             test = new Test();
+            grid.DataSource = test.generateTable(3);
+            //dataGridView1.Columns[0].Width = 600; // ширина столбца альтерантив
+            //dataGridView1.Columns[1].Width = 97; // ширина столбца оценок
+            //                                     // шобы столбцы нельзя было сортировать
+
+            for(int i = 0; i < grid.Columns.Count; i++)
+            {
+                //grid.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        // при нажатии на ячейку
+        private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int col = e.ColumnIndex;
+            int row = e.RowIndex;
+
+            for(int i = 0; i < row; i++)
+                for (int j = 0; j < col; j++)
+                {
+
+                }
+
+            for (int j = 0; j < col; j++)
+            {
+                grid.Rows[row].Cells[j].
+            }
         }
     }
 }

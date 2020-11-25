@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS public.users
     patronymic varchar(255),
     birthday timestamp,
     gender boolean DEFAULT 'true'::boolean,
-    role varchar(255) NOT NULL,
+    role varchar(255) NOT NULL DEFAULT 'user',
     email varchar(255),
     password varchar(255),
     position varchar(255),
