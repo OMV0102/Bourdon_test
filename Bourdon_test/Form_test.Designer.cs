@@ -43,13 +43,12 @@
             this.grid.AllowUserToResizeRows = false;
             this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.grid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.grid.ColumnHeadersVisible = false;
             this.grid.EnableHeadersVisualStyles = false;
             this.grid.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.grid.Location = new System.Drawing.Point(10, 72);
+            this.grid.Location = new System.Drawing.Point(10, 120);
             this.grid.MultiSelect = false;
             this.grid.Name = "grid";
             this.grid.ReadOnly = true;
@@ -106,7 +105,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(846, 804);
+            this.ClientSize = new System.Drawing.Size(846, 852);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExit);

@@ -38,14 +38,26 @@ namespace Bourdon_test
         private void Form_test_Load(object sender, EventArgs e)
         {
             test = new Test();
-            grid.DataSource = test.generateTable(size);
-            // просчет размера грида и ячеек
-            int cellWidth = 25;
-            this.Width = 10 + 10 + size* cellWidth + grid.RowTemplate.DividerHeight*(size-1);
-            this.Height = 800;
+            grid.DataSource = test.generateTable(size); // генерация таблицы
 
+            // просчет размера грида и ячеек
+            int cellWidth = 25; // ширина ячейки
+            int cellHeight = 22; // высота ячейки
+            int heightTop = 130; // Высота пространства над гридом
+            int widthMargin = 10;
 
             
+
+            this.Width = widthMargin + widthMargin + size* cellWidth + 3;
+            this.Height = heightTop + widthMargin + widthMargin + size*cellHeight + 3;
+            
+            grid.RowTemplate.Height = cellHeight;
+            Point p = grid.Location; p.X = widthMargin; p.Y = heightTop; grid.Location = p; // начальное положение грида
+            grid.Width = size * cellWidth + 3;
+            grid.Height = size * cellHeight + 2;
+
+
+
 
             for (int j = 0; j < grid.Columns.Count; j++)
             {
