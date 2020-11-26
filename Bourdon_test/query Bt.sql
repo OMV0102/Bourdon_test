@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS public.results
 	id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 	created_date timestamp DEFAULT now()::timestamp,
 	user_id uuid NOT NULL REFERENCES public.users(id),
+	level integer,
 	t integer,
 	l integer,
 	c integer,
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS public.results
 	p integer,
 	o integer
 );
-ALTER TABLE pmib6602.results ADD CONSTRAINT unique_date_user_results UNIQUE (created_date, user_id);
+-- ALTER TABLE pmib6602.results ADD CONSTRAINT unique_date_user_results UNIQUE (created_date, user_id);
 
 
 /*

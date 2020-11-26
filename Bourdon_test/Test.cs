@@ -38,7 +38,7 @@ namespace Bourdon_test
                 {
                     int digitRandom = this.PRNG(0, 10, rng);
                     if (this.arrayDigit.Contains(digitRandom) == true)
-                        this.result.L++;
+                        this.result.n++;
                     row[j] = digitRandom;
                 }
                 table.Rows.Add(row);

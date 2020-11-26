@@ -8,6 +8,11 @@ namespace Bourdon_test
 {
     public class Result
     {
+        public Guid id = Guid.Empty;
+        public DateTime dateCreated = DateTime.Parse("01.01.1970");
+        public Guid userID = Guid.Empty;
+        public int level;
+
         public int t; // потраченое время в секундах
         public int L; // общее количество просмотренных до последнего выбранного
         public int C = 0; // число просмотренных строк
@@ -17,9 +22,7 @@ namespace Bourdon_test
         public int P; // число пропущенных, которые нужно было выбрать
         public int O; // число ошибочно выбранных
 
-        public Guid id = Guid.Empty;
-        public DateTime dateCreated = DateTime.Parse("01.01.1970");
-        public Guid userID = Guid.Empty;
+        
 
         public int M() // общее число выбранных символов (S + O)
         {

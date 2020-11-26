@@ -95,6 +95,8 @@ namespace Bourdon_test
         // кнопка Закончить
         private void btnExit_Click(object sender, EventArgs e)
         {
+            this.btnPause.PerformClick(); // ставим на паузу тест (нажали на Пауза)
+
             if (this.test.result.t < this.timerInterval)
                 this.test.result.t = this.timerInterval;
 
@@ -102,6 +104,7 @@ namespace Bourdon_test
             this.test.result.L = this.rowLastCell * grid.Columns.Count + this.colLastCell; // общее количество просмотренных до последнего выбранного
             this.test.result.userID = this.userID; // в результат запоминаем id пользователя
             this.test.result.dateCreated = DateTime.Now;
+            this.test.result.level = this.level;
 
             // Форма отображения результата
             // true т.к. необходимо сохранение в БД
@@ -121,19 +124,18 @@ namespace Bourdon_test
             if (arrayCellSelected[row, col] == false)
             {
                 // установка статуса
-                if (labelStatus.Visible == true)
-                    if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[row].Cells[col].Value)) == true)
-                    {
-                        labelStatus.Text = "✔";
-                        labelStatus.ForeColor = Color.Green;
-                        this.test.result.S++; // +1 к верно выбранным
-                    }
-                    else
-                    {
-                        labelStatus.Text = "✖";
-                        labelStatus.ForeColor = Color.Red;
-                        this.test.result.O++; // +1 к ошибочно выбранным
-                    }
+                if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[row].Cells[col].Value)) == true)
+                {
+                    labelStatus.Text = "✔";
+                    labelStatus.ForeColor = Color.Green;
+                    this.test.result.S++; // +1 к верно выбранным
+                }
+                else
+                {
+                    labelStatus.Text = "✖";
+                    labelStatus.ForeColor = Color.Red;
+                    this.test.result.O++; // +1 к ошибочно выбранным
+                }
 
                 // если это нулевая ячейка и она не выбрана
                 if (arrayCellSelected[0, 0] == false && (row != this.rowLastCell || col != 0))

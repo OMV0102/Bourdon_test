@@ -53,9 +53,9 @@ namespace Bourdon_test
 
             try
             {
-                if (this.openConnection(Database.connectionString, out conn, out errorMessage) == false)
+                if (this.openConnection(Database.connectionString, out conn, out string message) == false)
                 {
-                    throw new Exception(errorMessage);
+                    throw new Exception(message);
                 }
                 NpgsqlCommand query = null;
                 NpgsqlDataReader sqlReader = null;
@@ -111,7 +111,6 @@ namespace Bourdon_test
             }
             catch(Exception error)
             {
-                conn = null;
                 if(conn != null) conn.Close();
                 errorMessage = error.Message;
                 return 0;
@@ -128,9 +127,9 @@ namespace Bourdon_test
 
             try
             {
-                if (this.openConnection(Database.connectionString, out conn, out errorMessage) == false)
+                if (this.openConnection(Database.connectionString, out conn, out string message) == false)
                 {
-                    throw new Exception(errorMessage);
+                    throw new Exception(message);
                 }
                 NpgsqlCommand query = null;
                 try
@@ -160,7 +159,6 @@ namespace Bourdon_test
             }
             catch(Exception error)
             {
-                conn = null;
                 if (conn != null) conn.Close();
                 errorMessage = error.Message;
                 return false;
@@ -175,18 +173,19 @@ namespace Bourdon_test
 
             try
             {
-                if (this.openConnection(Database.connectionString, out conn, out errorMessage) == false)
+                if (this.openConnection(Database.connectionString, out conn, out string message) == false)
                 {
-                    throw new Exception(errorMessage);
+                    throw new Exception(message);
                 }
                 NpgsqlCommand query = null;
 
                 res.id = Guid.NewGuid(); // генерация нового id для результата
 
-                query = new NpgsqlCommand("INSERT INTO public.results (id, created_date, user_id, t, l, c, n, s, p, o) VALUES (@id::uuid, @date::timestamp, @user_id::uuid, @t, @l, @c, @n, @s, @p, @o);", conn);
+                query = new NpgsqlCommand("INSERT INTO public.results (id, created_date, user_id, level, t, l, c, n, s, p, o) VALUES (@id::uuid, @date::timestamp, @user_id::uuid, @level, @t, @l, @c, @n, @s, @p, @o);", conn);
                 query.Parameters.AddWithValue("id", res.id);
                 query.Parameters.AddWithValue("date", res.dateCreated.ToString());
                 query.Parameters.AddWithValue("user_id", res.userID);
+                query.Parameters.AddWithValue("level", res.level);
                 query.Parameters.AddWithValue("t", res.t);
                 query.Parameters.AddWithValue("l", res.L);
                 query.Parameters.AddWithValue("c", res.C);
@@ -200,9 +199,74 @@ namespace Bourdon_test
             }
             catch (Exception error)
             {
-                conn = null;
                 if (conn != null) conn.Close();
                 errorMessage = error.Message;
+                return false;
+            }
+        }
+
+        // Сохранение результата локально в файл
+        public bool saveResultFile(string path, Result res, out string errorMessage)
+        {
+            errorMessage = "";
+            string strSave = "";
+            string symb = "=";
+
+            try
+            {
+                strSave += res.id.ToString() + symb;
+                strSave += res.dateCreated.ToString() + symb;
+                strSave += res.userID.ToString() + symb;
+                strSave += res.level + "=";
+                strSave += res.t + symb;
+                strSave += res.L + symb;
+                strSave += res.C + symb;
+                strSave += res.n + symb;
+                strSave += res.S + symb;
+                strSave += res.P + symb;
+                strSave += res.O;
+
+                System.IO.File.WriteAllText(path, strSave, Encoding.UTF8);
+                errorMessage = "Результат успешно записан в файл:\n" + path;
+                return true;
+            }
+            catch (Exception error)
+            {
+                errorMessage = "Не удалось сохранить результат в файл локально.\n" + error.Message;
+                return false;
+            }
+        }
+
+        // Загрузка результата из файл
+        public bool readResultFile(string path, out Result res, out string errorMessage)
+        {
+            errorMessage = "";
+            res = new Result();
+            string strRead = "";
+            char symb = '=';
+            string[] words;
+
+            try
+            {
+                strRead = System.IO.File.ReadAllText(path, Encoding.UTF8);
+                words = strRead.Split(new char[] { symb }, StringSplitOptions.RemoveEmptyEntries);
+                res.id = Guid.Parse(words[0]);
+                res.dateCreated = DateTime.Parse(words[1]);
+                res.userID = Guid.Parse(words[2]);
+                res.level = Convert.ToInt32(words[3]);
+                res.t = Convert.ToInt32(words[4]);
+                res.L = Convert.ToInt32(words[5]);
+                res.C = Convert.ToInt32(words[6]);
+                res.n = Convert.ToInt32(words[7]);
+                res.S = Convert.ToInt32(words[8]);
+                res.P = Convert.ToInt32(words[9]);
+                res.O = Convert.ToInt32(words[10]);
+
+                return true;
+            }
+            catch (Exception error)
+            {
+                errorMessage = "Не удалось загрузить результат из файл, возможно он поврежден.\n" + error.Message;
                 return false;
             }
         }
