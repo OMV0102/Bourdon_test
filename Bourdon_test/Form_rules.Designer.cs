@@ -40,7 +40,7 @@
             // 
             this.btnBack.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBack.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnBack.Location = new System.Drawing.Point(12, 424);
+            this.btnBack.Location = new System.Drawing.Point(12, 437);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 43);
             this.btnBack.TabIndex = 0;
@@ -52,7 +52,7 @@
             // btnStartTest
             // 
             this.btnStartTest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartTest.Location = new System.Drawing.Point(242, 417);
+            this.btnStartTest.Location = new System.Drawing.Point(243, 433);
             this.btnStartTest.Name = "btnStartTest";
             this.btnStartTest.Size = new System.Drawing.Size(241, 50);
             this.btnStartTest.TabIndex = 1;
@@ -98,7 +98,7 @@
             this.txtRules.Name = "txtRules";
             this.txtRules.ReadOnly = true;
             this.txtRules.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtRules.Size = new System.Drawing.Size(690, 303);
+            this.txtRules.Size = new System.Drawing.Size(724, 324);
             this.txtRules.TabIndex = 4;
             this.txtRules.TabStop = false;
             this.txtRules.Text = "";
@@ -119,7 +119,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnBack;
-            this.ClientSize = new System.Drawing.Size(714, 480);
+            this.ClientSize = new System.Drawing.Size(748, 490);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtRules);
             this.Controls.Add(this.boxDifficulty);
@@ -128,7 +128,7 @@
             this.Controls.Add(this.btnBack);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Form_rules";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Правила";

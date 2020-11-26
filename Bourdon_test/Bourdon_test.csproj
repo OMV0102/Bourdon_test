@@ -102,6 +102,18 @@
     <Compile Include="Form_register_user.Designer.cs">
       <DependentUpon>Form_register_user.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_result.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_result.Designer.cs">
+      <DependentUpon>Form_result.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_resultsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_resultsList.Designer.cs">
+      <DependentUpon>Form_resultsList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_rules.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +128,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Results.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="User.cs" />
     <EmbeddedResource Include="Form_authorization.resx">
@@ -129,6 +142,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_register_user.resx">
       <DependentUpon>Form_register_user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_result.resx">
+      <DependentUpon>Form_result.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_resultsList.resx">
+      <DependentUpon>Form_resultsList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_rules.resx">
       <DependentUpon>Form_rules.cs</DependentUpon>

@@ -36,6 +36,7 @@
             this.labelTime = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.labelDigits = new System.Windows.Forms.Label();
+            this.labelStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,6 +82,7 @@
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(136, 36);
             this.btnExit.TabIndex = 1;
+            this.btnExit.TabStop = false;
             this.btnExit.Text = "Закончить";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -104,6 +106,7 @@
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(136, 36);
             this.btnPause.TabIndex = 3;
+            this.btnPause.TabStop = false;
             this.btnPause.Text = "Пауза";
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
@@ -134,11 +137,23 @@
             this.labelDigits.TabIndex = 5;
             this.labelDigits.Text = "Отмечайте эти цифры: ";
             // 
+            // labelStatus
+            // 
+            this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelStatus.Location = new System.Drawing.Point(798, 83);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(30, 31);
+            this.labelStatus.TabIndex = 6;
+            this.labelStatus.Text = "  ";
+            // 
             // Form_test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 852);
+            this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.labelDigits);
             this.Controls.Add(this.labelTime);
             this.Controls.Add(this.btnPause);
@@ -168,5 +183,6 @@
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Label labelDigits;
+        private System.Windows.Forms.Label labelStatus;
     }
 }
