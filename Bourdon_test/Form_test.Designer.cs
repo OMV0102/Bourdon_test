@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.grid = new System.Windows.Forms.DataGridView();
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnPause = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelTime = new System.Windows.Forms.Label();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.labelDigits = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +52,7 @@
             this.grid.ColumnHeadersVisible = false;
             this.grid.EnableHeadersVisualStyles = false;
             this.grid.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.grid.Location = new System.Drawing.Point(10, 120);
+            this.grid.Location = new System.Drawing.Point(9, 118);
             this.grid.MultiSelect = false;
             this.grid.Name = "grid";
             this.grid.ReadOnly = true;
@@ -74,9 +77,9 @@
             // 
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.btnExit.Location = new System.Drawing.Point(10, 65);
+            this.btnExit.Location = new System.Drawing.Point(9, 48);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(119, 36);
+            this.btnExit.Size = new System.Drawing.Size(136, 36);
             this.btnExit.TabIndex = 1;
             this.btnExit.Text = "Закончить";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -97,30 +100,47 @@
             // 
             this.btnPause.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.btnPause.Location = new System.Drawing.Point(10, 12);
+            this.btnPause.Location = new System.Drawing.Point(9, 8);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(93, 36);
+            this.btnPause.Size = new System.Drawing.Size(136, 36);
             this.btnPause.TabIndex = 3;
             this.btnPause.Text = "Пауза";
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
-            // label2
+            // labelTime
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(774, 49);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 24);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "00:00";
+            this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTime.AutoSize = true;
+            this.labelTime.Location = new System.Drawing.Point(774, 49);
+            this.labelTime.Name = "labelTime";
+            this.labelTime.Size = new System.Drawing.Size(55, 24);
+            this.labelTime.TabIndex = 4;
+            this.labelTime.Text = "00:00";
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Interval = 5000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // labelDigits
+            // 
+            this.labelDigits.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.labelDigits.AutoSize = true;
+            this.labelDigits.Location = new System.Drawing.Point(12, 89);
+            this.labelDigits.Name = "labelDigits";
+            this.labelDigits.Size = new System.Drawing.Size(222, 24);
+            this.labelDigits.TabIndex = 5;
+            this.labelDigits.Text = "Отмечайте эти цифры: ";
             // 
             // Form_test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 852);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelDigits);
+            this.Controls.Add(this.labelTime);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExit);
@@ -145,6 +165,8 @@
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnPause;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelTime;
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Label labelDigits;
     }
 }

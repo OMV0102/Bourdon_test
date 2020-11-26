@@ -13,15 +13,15 @@ namespace Bourdon_test
 {
     class Test
     {
-        // гунуерация таблицы типа DataTable
+        // генерация таблицы типа DataTable
         public DataTable generateTable(int size)
         {
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();// объект класса генератора псевдослучайных чисел
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider(); // объект класса генератора псевдослучайных чисел
             DataTable table = new DataTable();
             table.Clear();
             table.Columns.Clear();
             table.Rows.Clear();
-            int count = 1;
+
             for(int i = 0; i < size; i++)
             {
                 table.Columns.Add();
@@ -39,6 +39,27 @@ namespace Bourdon_test
             }
 
             return table;
+        }
+
+        // генерация списка размера dim с неповторяющимися цифрами
+        public List<int> generateListDigit(int dim)
+        {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider(); // объект класса генератора псевдослучайных чисел
+            // список возможных цифр
+            List<int> digits = new List<int>(); ;
+            for (int i = 1; i < 10; i++)
+            {
+                digits.Add(i);
+            }
+
+            List<int> arrayDigit = new List<int>();
+            for(int i = 0; i < dim; i++)
+            {
+                int digitsIndex = Convert.ToInt32(this.PRNG(0, digits.Count, rng));
+                arrayDigit.Add(digits[digitsIndex]);
+                digits.RemoveAt(digitsIndex);
+            }
+            return arrayDigit;
         }
 
         // Генератор случайного числа

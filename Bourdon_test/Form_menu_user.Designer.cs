@@ -78,6 +78,7 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Form_menu_user";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Меню выбора";
             this.Load += new System.EventHandler(this.Form_menu_user_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form_menu_user_MouseDown);
             this.ResumeLayout(false);
