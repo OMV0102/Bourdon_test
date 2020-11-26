@@ -166,5 +166,45 @@ namespace Bourdon_test
                 return false;
             }
         }
+
+        // Сохранение результата в БД
+        public bool saveResult(Result res, out string errorMessage)
+        {
+            errorMessage = "";
+            NpgsqlConnection conn = null;
+
+            try
+            {
+                if (this.openConnection(Database.connectionString, out conn, out errorMessage) == false)
+                {
+                    throw new Exception(errorMessage);
+                }
+                NpgsqlCommand query = null;
+
+                res.id = Guid.NewGuid(); // генерация нового id для результата
+
+                query = new NpgsqlCommand("INSERT INTO public.results (id, created_date, user_id, t, l, c, n, s, p, o) VALUES (@id::uuid, @date::timestamp, @user_id::uuid, @t, @l, @c, @n, @s, @p, @o);", conn);
+                query.Parameters.AddWithValue("id", res.id);
+                query.Parameters.AddWithValue("date", res.dateCreated.ToString());
+                query.Parameters.AddWithValue("user_id", res.userID);
+                query.Parameters.AddWithValue("t", res.t);
+                query.Parameters.AddWithValue("l", res.L);
+                query.Parameters.AddWithValue("c", res.C);
+                query.Parameters.AddWithValue("n", res.n);
+                query.Parameters.AddWithValue("s", res.S);
+                query.Parameters.AddWithValue("p", res.P);
+                query.Parameters.AddWithValue("o", res.O);
+                query.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception error)
+            {
+                conn = null;
+                if (conn != null) conn.Close();
+                errorMessage = error.Message;
+                return false;
+            }
+        }
     }
 }

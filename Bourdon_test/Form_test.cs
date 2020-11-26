@@ -15,12 +15,12 @@ namespace Bourdon_test
         public Form_test(Guid id, int difficulty)
         {
             InitializeComponent();
-            this.iserID = id;
+            this.userID = id;
             this.size = difficulty * 10;
             this.level = difficulty;
         }
 
-        private readonly Guid iserID;
+        private readonly Guid userID;
         private Test test;
         private bool[,] arrayCellSelected; // массив выбора ячеек
         private int colLastCell = 0;
@@ -100,10 +100,12 @@ namespace Bourdon_test
 
             this.test.result.C = this.rowLastCell + 1; // число просмотренных строк
             this.test.result.L = this.rowLastCell * grid.Columns.Count + this.colLastCell; // общее количество просмотренных до последнего выбранного
+            this.test.result.userID = this.userID; // в результат запоминаем id пользователя
+            this.test.result.dateCreated = DateTime.Now;
 
             // Форма отображения результата
             // true т.к. необходимо сохранение в БД
-            Form_result form = new Form_result(this.iserID, this.test.result, true);
+            Form_result form = new Form_result(this.test.result, true);
             form.Show(this.Owner);
             this.Close();
         }

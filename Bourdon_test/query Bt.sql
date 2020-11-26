@@ -1,5 +1,5 @@
 
-
+-- таблица Пользователи
 CREATE TABLE IF NOT EXISTS public.users
 (
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -13,23 +13,27 @@ CREATE TABLE IF NOT EXISTS public.users
     email varchar(255),
     password varchar(255),
     position varchar(255),
-	organization varchar(255),
+    organization varchar(255),
     created_date timestamp DEFAULT now()::timestamp,
     created_by uuid NOT NULL REFERENCES public.users(id)
 );
---INSERT INTO public.users (login, password, role) VALUES (@login, @password, @role);
 --SELECT id, login, password, role FROM public.users WHERE TRIM(login) = TRIM(@login);
 
-
-
+-- таблица Результаты
 CREATE TABLE IF NOT EXISTS public.results
 (
-    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    created_date timestamp DEFAULT now()::timestamp,
-    user_id uuid NOT NULL REFERENCES public.users(id),
-    link text NOT NULL
+	id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+	created_date timestamp DEFAULT now()::timestamp,
+	user_id uuid NOT NULL REFERENCES public.users(id),
+	t integer,
+	l integer,
+	c integer,
+	n integer,
+	s integer,
+	p integer,
+	o integer
 );
-ALTER TABLE pmib6602.search_default ADD CONSTRAINT unique_id_link_searchdefault UNIQUE (id, link);
+ALTER TABLE pmib6602.results ADD CONSTRAINT unique_date_user_results UNIQUE (created_date, user_id);
 
 
 /*

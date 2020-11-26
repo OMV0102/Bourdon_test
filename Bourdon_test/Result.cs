@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bourdon_test
 {
-     public class Results
+    public class Result
     {
         public int t; // потраченое время в секундах
         public int L; // общее количество просмотренных до последнего выбранного
@@ -16,6 +16,10 @@ namespace Bourdon_test
         public int S; // число верно выбранных
         public int P; // число пропущенных, которые нужно было выбрать
         public int O; // число ошибочно выбранных
+
+        public Guid id = Guid.Empty;
+        public DateTime dateCreated = DateTime.Parse("01.01.1970");
+        public Guid userID = Guid.Empty;
 
         public int M() // общее число выбранных символов (S + O)
         {

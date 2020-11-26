@@ -15,7 +15,7 @@ namespace Bourdon_test
     {
         public DataTable table;
         public List<int> arrayDigit;
-        public Results result = new Results();
+        public Result result = new Result();
 
         // генерация таблицы типа DataTable
         public DataTable generateTable(int size)

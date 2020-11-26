@@ -89,7 +89,6 @@ namespace Bourdon_test
                 {
                     MessageBox.Show("Ошибка при добавлении нового пользователя:\n" + message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 }
-
             }
 
 

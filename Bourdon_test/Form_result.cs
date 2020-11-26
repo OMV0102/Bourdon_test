@@ -12,16 +12,14 @@ namespace Bourdon_test
 {
     public partial class Form_result : Form
     {
-        public Form_result(Guid id, Results res, bool saveOrNot)
+        public Form_result(Result res, bool saveOrNot)
         {
             InitializeComponent();
-            this.iserID = id;
-            this.results = res;
+            this.result = res;
             this.isNeedSave = saveOrNot;
         }
 
-        private readonly Guid iserID;
-        private Results results;
+        private Result result;
         private bool isNeedSave;
 
         // перетаскивание окна по экрану
@@ -35,7 +33,23 @@ namespace Bourdon_test
         // при загрузке формы
         private void Form_result_Load(object sender, EventArgs e)
         {
+            // вывод результатат на экран
 
+
+            // если форма открылась сразу после теста, то нудно сохранить в БД
+            if(this.isNeedSave == true)
+            {
+                Database db = new Database();
+                db.saveResult(this.result, out string message); 
+            }
+        }
+
+        // кнопка Закрыть
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            var form = this.Owner;
+            form.Show();
+            this.Close();
         }
     }
 }
