@@ -44,8 +44,8 @@ namespace Bourdon_test
         //кнопка Пройти Тест
         private void btnTest_Click(object sender, EventArgs e)
         {
-            Form_test formTest = new Form_test(user, 2);
-            formTest.Show(this);
+            Form_rules form = new Form_rules(user.id);
+            form.Show(this);
             this.Hide();
         }
     }

@@ -102,6 +102,12 @@
     <Compile Include="Form_register_user.Designer.cs">
       <DependentUpon>Form_register_user.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_rules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_rules.Designer.cs">
+      <DependentUpon>Form_rules.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_test.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_register_user.resx">
       <DependentUpon>Form_register_user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_rules.resx">
+      <DependentUpon>Form_rules.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_test.resx">
       <DependentUpon>Form_test.cs</DependentUpon>

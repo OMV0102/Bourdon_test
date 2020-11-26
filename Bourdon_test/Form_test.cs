@@ -12,17 +12,17 @@ namespace Bourdon_test
 {
     public partial class Form_test : Form
     {
-        public Form_test(User userObject, int difficulty)
+        public Form_test(Guid id, int difficulty)
         {
             InitializeComponent();
-            this.user = userObject;
+            this.iserID = id;
             this.size = difficulty * 10;
         }
 
-        private readonly User user;
+        private readonly Guid iserID;
         private Test test;
         private bool[,] gridCellSelected;
-        private int colLastCell = 0;
+        //private int colLastCell = 0;
         private int rowLastCell = 0;
         private readonly int size;
 
@@ -55,7 +55,7 @@ namespace Bourdon_test
             Point p = grid.Location; p.X = widthMargin; p.Y = heightTop; grid.Location = p; // начальное положение грида
             grid.Width = size * cellWidth + 3;
             grid.Height = size * cellHeight + 2;
-
+            this.CenterToScreen();
 
 
 
@@ -105,7 +105,7 @@ namespace Bourdon_test
                 grid.Rows[row].Cells[j].Style.BackColor = Color.LightGray;
                 grid.Rows[row].Cells[j].Style.ForeColor = Color.DarkGray;
             }
-            this.colLastCell = col;
+            //this.colLastCell = col;
             this.rowLastCell = row;
         }
 
