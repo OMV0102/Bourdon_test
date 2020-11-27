@@ -30,8 +30,8 @@
         {
             this.btnRegisterUser = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
-            this.btnEditUser = new System.Windows.Forms.Button();
             this.lblName = new System.Windows.Forms.Label();
+            this.btnResultAllShow = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnRegisterUser
@@ -51,7 +51,7 @@
             // 
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnExit.Location = new System.Drawing.Point(113, 296);
+            this.btnExit.Location = new System.Drawing.Point(123, 228);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(137, 45);
             this.btnExit.TabIndex = 1;
@@ -59,20 +59,6 @@
             this.btnExit.Text = "Выход";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // btnEditUser
-            // 
-            this.btnEditUser.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditUser.Enabled = false;
-            this.btnEditUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnEditUser.Location = new System.Drawing.Point(101, 151);
-            this.btnEditUser.Name = "btnEditUser";
-            this.btnEditUser.Size = new System.Drawing.Size(196, 62);
-            this.btnEditUser.TabIndex = 2;
-            this.btnEditUser.TabStop = false;
-            this.btnEditUser.Text = "Редактирование пользователей";
-            this.btnEditUser.UseVisualStyleBackColor = true;
-            this.btnEditUser.Click += new System.EventHandler(this.btnEditUser_Click);
             // 
             // lblName
             // 
@@ -84,13 +70,27 @@
             this.lblName.TabIndex = 3;
             this.lblName.Text = "Фамилия И.О.";
             // 
+            // btnResultAllShow
+            // 
+            this.btnResultAllShow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnResultAllShow.Enabled = false;
+            this.btnResultAllShow.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnResultAllShow.Location = new System.Drawing.Point(101, 146);
+            this.btnResultAllShow.Name = "btnResultAllShow";
+            this.btnResultAllShow.Size = new System.Drawing.Size(196, 62);
+            this.btnResultAllShow.TabIndex = 4;
+            this.btnResultAllShow.TabStop = false;
+            this.btnResultAllShow.Text = "Просмотр всех результатов";
+            this.btnResultAllShow.UseVisualStyleBackColor = true;
+            this.btnResultAllShow.Click += new System.EventHandler(this.btnResultAllShow_Click);
+            // 
             // Form_menu_admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 381);
+            this.ClientSize = new System.Drawing.Size(404, 300);
+            this.Controls.Add(this.btnResultAllShow);
             this.Controls.Add(this.lblName);
-            this.Controls.Add(this.btnEditUser);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRegisterUser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -108,7 +108,7 @@
 
         private System.Windows.Forms.Button btnRegisterUser;
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Button btnEditUser;
         private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Button btnResultAllShow;
     }
 }

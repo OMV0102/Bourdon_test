@@ -18,7 +18,7 @@ namespace Bourdon_test
         private static string connectionString = "Host=localhost;Port=5432;Database=bourdon_test;User Id=analyst;Password=123123;";
 
         // получение хэша SHA256 от строки
-        private string getHash(string str)
+        public string getHash(string str)
         {
             return BitConverter.ToString(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(str))).Replace("-", "").ToLower();
         }
@@ -61,7 +61,7 @@ namespace Bourdon_test
                 NpgsqlDataReader sqlReader = null;
                 try
                 {
-                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, gender, role, email, password, organization FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
+                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, gender, role, email, password, organization, position FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
                     query.Parameters.AddWithValue("login", login);
                     sqlReader = query.ExecuteReader();
                 }
@@ -93,7 +93,9 @@ namespace Bourdon_test
                             userObject.gender = sqlReader.GetBoolean(6);
                             userObject.role = sqlReader.GetString(7);
                             userObject.email = sqlReader.GetString(8);
+                            userObject.passwordHash = sqlReader.GetString(9);
                             userObject.organization = sqlReader.GetString(10);
+                            userObject.position = sqlReader.GetString(11);
 
                             if (conn != null) conn.Close();
 
@@ -119,6 +121,15 @@ namespace Bourdon_test
             return 0;
         }
 
+        // TODO // Считывание всех пользователей в список
+        public bool readAllUsers(out List<User> listUser, out string errorMessage)
+        {
+            errorMessage = "";
+            listUser = null;
+            NpgsqlConnection conn = null;
+            return false;
+        }
+
         // Добавление нового пользователя
         public bool registerNewUser(User user, out string errorMessage)
         {
@@ -134,7 +145,8 @@ namespace Bourdon_test
                 NpgsqlCommand query = null;
                 try
                 {
-                    query = new NpgsqlCommand("INSERT INTO public.users (login, surname, name, patronymic, birthday, gender, email, password, position, organization, created_by) VALUES (@login, @surname, @name, @patronymic, @birthday::timestamp, @gender::boolean, @email, @password, @position, @organization, @created_by::uuid, @role);", conn);
+                    query = new NpgsqlCommand("INSERT INTO public.users (id, login, surname, name, patronymic, birthday, gender, email, password, position, organization, created_by) VALUES (@id::uuid, @login, @surname, @name, @patronymic, @birthday::timestamp, @gender::boolean, @email, @password, @position, @organization, @created_by::uuid, @role);", conn);
+                    query.Parameters.AddWithValue("id", user.id);
                     query.Parameters.AddWithValue("login", user.login);
                     query.Parameters.AddWithValue("surname", user.surname);
                     query.Parameters.AddWithValue("name", user.name);
@@ -158,6 +170,52 @@ namespace Bourdon_test
 
             }
             catch(Exception error)
+            {
+                if (conn != null) conn.Close();
+                errorMessage = error.Message;
+                return false;
+            }
+        }
+
+        // Изменение информации о пользователе
+        public bool editUser(User user, out string errorMessage)
+        {
+            errorMessage = "";
+            NpgsqlConnection conn = null;
+
+            try
+            {
+                if (this.openConnection(Database.connectionString, out conn, out string message) == false)
+                {
+                    throw new Exception(message);
+                }
+                NpgsqlCommand query = null;
+                try
+                {
+                    query = new NpgsqlCommand("UPDATE public.users SET (login, surname, name, patronymic, birthday, gender, email, password, position, organization) = (@login, @surname, @name, @patronymic, @birthday::timestamp, @gender::boolean, @email, @password, @position, @organization) WHERE id = @id::uuid;", conn);
+                    query.Parameters.AddWithValue("login", user.login);
+                    query.Parameters.AddWithValue("surname", user.surname);
+                    query.Parameters.AddWithValue("name", user.name);
+                    query.Parameters.AddWithValue("patronymic", user.patronymic);
+                    query.Parameters.AddWithValue("birthday", user.birthday.ToString());
+                    query.Parameters.AddWithValue("gender", user.gender);
+                    query.Parameters.AddWithValue("email", user.email);
+                    query.Parameters.AddWithValue("password", user.passwordHash);
+                    query.Parameters.AddWithValue("position", user.position);
+                    query.Parameters.AddWithValue("organization", user.organization);
+                    query.Parameters.AddWithValue("id", user.id);
+                    query.ExecuteNonQuery();
+                    if (conn != null) conn.Close();
+                    return true;
+                }
+                catch (Exception error)
+                {
+                    string s = error.Message;
+                    throw new Exception("Ошибка доступа к базе данных при изменении записи пользователя!\n");
+                }
+
+            }
+            catch (Exception error)
             {
                 if (conn != null) conn.Close();
                 errorMessage = error.Message;
@@ -237,7 +295,7 @@ namespace Bourdon_test
                         Result temp = new Result();
 
                         temp.id = sqlReader.GetGuid(0);
-                        temp.dateCreated =  = sqlReader.GetDateTime(1);
+                        temp.dateCreated = sqlReader.GetDateTime(1);
                         temp.userID = sqlReader.GetGuid(2);
                         temp.level = sqlReader.GetInt32(3);
                         temp.t = sqlReader.GetInt32(4);

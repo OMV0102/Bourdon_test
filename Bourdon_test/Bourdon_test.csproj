@@ -78,6 +78,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
+    <Compile Include="FormResultsAll.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormResultsAll.Designer.cs">
+      <DependentUpon>FormResultsAll.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_authorization.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,9 @@
     <Compile Include="Result.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="User.cs" />
+    <EmbeddedResource Include="FormResultsAll.resx">
+      <DependentUpon>FormResultsAll.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_authorization.resx">
       <DependentUpon>Form_authorization.cs</DependentUpon>
     </EmbeddedResource>

@@ -21,7 +21,7 @@ namespace Bourdon_test
         private readonly Guid userID;
         private List<Result> listResults;
 
-        // перетаксивание формы по экрану
+        // перетаскивание формы по экрану
         private void Form_resultsList_MouseDown(object sender, MouseEventArgs e)
         {
             base.Capture = false;
@@ -38,14 +38,36 @@ namespace Bourdon_test
             if(res == false) // Если ошибка то закрываем форму с выводом сообщения
             {
                 MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                var form = this.Owner;
-                form.Show();
-                this.Close();
+                btnBack.PerformClick(); // назад
             }
             else
             {
-
+                int dim = this.listResults.Count;
+                string item = "";
+                for(int i = 0; i < dim; i++)
+                {
+                    // выводим дату/время,уровень, секунды
+                    item = listResults[i].dateCreated.ToShortDateString() + "  " + listResults[i].dateCreated.ToShortTimeString() + "\t" + listResults[i].level + "\t\t" + listResults[i].t;
+                    this.listBox.Items.Add(item);
+                }
             }
+        }
+
+        // кнопка Назад
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            var form = this.Owner;
+            form.Show();
+            this.Close();
+        }
+
+        // при выборе элемента в списке двойным щелчком
+        private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int index = this.listBox.SelectedIndex;
+
+            Form_result form = new Form_result(this.listResults[index], false);
+            form.ShowDialog(this);
         }
     }
 }

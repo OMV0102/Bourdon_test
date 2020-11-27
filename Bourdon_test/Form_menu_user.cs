@@ -56,5 +56,13 @@ namespace Bourdon_test
             form.Show(this);
             this.Hide();
         }
+
+        // кнопка Редактировать профиль
+        private void btnEditUser_Click(object sender, EventArgs e)
+        {
+            Form_register_user form = new Form_register_user(user, false);
+            form.Show(this);
+            this.Hide();
+        }
     }
 }

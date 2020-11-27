@@ -18,18 +18,50 @@ namespace Bourdon_test
             this.idCreatedBy = Guid.Empty;
         }
 
-        public Form_register_user(Guid adminID)
+        public Form_register_user(Guid adminID, bool isRegOrEdit)
         {
             this.idCreatedBy = adminID;
+            this.regOrEdit = isRegOrEdit;
+            InitializeComponent();
+        }
+
+        public Form_register_user(bool isRegOrEdit)
+        {
+            this.regOrEdit = isRegOrEdit;
+            InitializeComponent();
+        }
+
+        public Form_register_user(User userObject, bool isRegOrEdit)
+        {
+            this.user = userObject;
+            this.regOrEdit = isRegOrEdit;
             InitializeComponent();
         }
 
         private Guid idCreatedBy = Guid.Empty;
+        private bool regOrEdit;
+        private User user;
 
         //при загрузке формы
         private void Form_register_user_Load(object sender, EventArgs e)
         {
-            txtGender.SelectedIndex = 0;
+            if(this.regOrEdit == false)
+            {
+                txtLogin.Text = user.login;
+                txtSurname.Text = user.surname;
+                txtName.Text = user.name;
+                txtPatronymic.Text = user.patronymic;
+                txtBirthday.Value = user.birthday;
+                if (user.gender == true)
+                    txtGender.SelectedItem = "м";
+                else if (user.gender == false)
+                    txtGender.SelectedItem = "ж";
+                txtEmail.Text = user.email;
+                txtPosition.Text = user.position;
+                txtOrganization.Text = user.organization;
+            }
+            else
+                txtGender.SelectedIndex = 0;
         }
 
         private void Form_register_user_MouseDown(object sender, MouseEventArgs e)
@@ -61,33 +93,66 @@ namespace Bourdon_test
                 MessageBox.Show("Дата рождения должна быть не позже текущей даты!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
             else
             {
-                User user = new User(this.idCreatedBy);
-                user.login = txtLogin.Text;
-                user.name = txtSurname.Text;
-                user.surname = txtName.Text;
-                user.patronymic = txtPatronymic.Text;
-                user.birthday = txtBirthday.Value;
-                if (txtGender.SelectedItem.ToString() == "м") 
-                    user.gender = true;
-                else if(txtGender.SelectedItem.ToString() == "ж")
-                    user.gender = false;
-                user.email = txtEmail.Text;
-                user.position = txtPosition.Text;
-                user.organization = txtOrganization.Text;
-
                 Database db = new Database();
-                bool result = db.registerNewUser(user, out string message);
+                User user1;
+                if (this.regOrEdit == true)
+                    user1 = new User(this.idCreatedBy);
+                else
+                    user1 = this.user;
+                user1.id = Guid.NewGuid();
+                user1.login = txtLogin.Text;
+                user1.surname = txtSurname.Text;
+                user1.name = txtName.Text;
+                user1.patronymic = txtPatronymic.Text;
+                user1.birthday = txtBirthday.Value;
+                if (txtGender.SelectedItem.ToString() == "м")
+                    user1.gender = true;
+                else if(txtGender.SelectedItem.ToString() == "ж")
+                    user1.gender = false;
+                user1.email = txtEmail.Text;
+                if (this.regOrEdit == true)
+                    if(txtPassword.Text == "")
+                        user1.passwordHash = db.getHash(user1.login);
+                    else
+                        user1.passwordHash = db.getHash(txtPassword.Text);
+                else
+                    if(txtPassword.Text != "") user1.passwordHash = db.getHash(txtPassword.Text);
+                user1.position = txtPosition.Text;
+                user1.organization = txtOrganization.Text;
+                if (user1.createdBy == Guid.Empty)
+                    user1.createdBy = user.id;
 
-                if (result)
+
+                if (this.regOrEdit == true)
                 {
-                    MessageBox.Show("Пользователь успешно добавлен!", "", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                    var form = this.Owner;
-                    form.Show();
-                    this.Close();
+                    bool result = db.registerNewUser(user1, out string message);
+
+                    if (result)
+                    {
+                        MessageBox.Show("Пользователь успешно добавлен!", "", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        var form = this.Owner;
+                        form.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при добавлении нового пользователя:\n" + message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Ошибка при добавлении нового пользователя:\n" + message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                    bool result = db.editUser(user1, out string message);
+                    if (result)
+                    {
+                        MessageBox.Show("Информация успешно обновлена!", "", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        var form = this.Owner;
+                        form.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при сохранении информации пользователя:\n" + message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                    }
                 }
             }
 

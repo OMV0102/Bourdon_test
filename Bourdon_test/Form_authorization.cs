@@ -100,34 +100,12 @@ namespace Bourdon_test
             }
         }
 
-        // отладочная кнопка  // выключена для пользователей (visible = false)
-        private void button1_Click(object sender, EventArgs e)
+        // кнопка Регистрация
+        private void btnRegister_Click(object sender, EventArgs e)
         {
-            /*try
-            {
-                NpgsqlConnection conn = new NpgsqlConnection(global.connectionString);
-                try
-                {
-                    conn.Open();
-                }
-                catch(Exception err)
-                {
-                    MessageBox.Show("Не удалось установить соединение с базой данных!\nПожалуйста, повторите попытку позже...", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                    return;
-                }
-
-                NpgsqlCommand n = new NpgsqlCommand("INSERT INTO pmib6602.users (id, login, password, role) VALUES (pmib6602.get_uuid(),  @login, @password, @role);", conn);
-
-                n.Parameters.AddWithValue("login", "orlov"); // логин
-                n.Parameters.AddWithValue("password", Database.getHash("orlov")); // пароль
-                n.Parameters.AddWithValue("role", "user premium"); // роль
-
-                var sqlReader = n.ExecuteNonQuery();
-            }
-            catch(Exception error)
-            {
-                MessageBox.Show(error.Message);
-            }*/
+            Form_register_user form = new Form_register_user(true);
+            form.Show(this);
+            this.Close();
         }
     }
 }

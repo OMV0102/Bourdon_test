@@ -18,6 +18,7 @@ namespace Bourdon_test
         public bool gender = true;
         public string role = "user";
         public string email = string.Empty;
+        public string passwordHash = String.Empty;
         public string position = String.Empty;
         public string organization = String.Empty;
         public Guid createdBy = Guid.Empty;

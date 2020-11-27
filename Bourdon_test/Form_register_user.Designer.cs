@@ -54,6 +54,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -119,7 +121,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(60, 355);
+            this.label7.Location = new System.Drawing.Point(60, 392);
             this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(134, 24);
@@ -139,7 +141,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(11, 318);
+            this.label9.Location = new System.Drawing.Point(11, 355);
             this.label9.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(183, 24);
@@ -156,7 +158,7 @@
             // 
             // txtOrganization
             // 
-            this.txtOrganization.Location = new System.Drawing.Point(203, 355);
+            this.txtOrganization.Location = new System.Drawing.Point(203, 392);
             this.txtOrganization.Name = "txtOrganization";
             this.txtOrganization.Size = new System.Drawing.Size(212, 29);
             this.txtOrganization.TabIndex = 11;
@@ -164,7 +166,7 @@
             // 
             // txtPosition
             // 
-            this.txtPosition.Location = new System.Drawing.Point(203, 318);
+            this.txtPosition.Location = new System.Drawing.Point(203, 355);
             this.txtPosition.Name = "txtPosition";
             this.txtPosition.Size = new System.Drawing.Size(212, 29);
             this.txtPosition.TabIndex = 12;
@@ -231,7 +233,7 @@
             // btnSave
             // 
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Location = new System.Drawing.Point(285, 397);
+            this.btnSave.Location = new System.Drawing.Point(285, 434);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(130, 34);
             this.btnSave.TabIndex = 19;
@@ -244,7 +246,7 @@
             // 
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(64, 397);
+            this.btnCancel.Location = new System.Drawing.Point(64, 434);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(130, 34);
             this.btnCancel.TabIndex = 20;
@@ -318,13 +320,33 @@
             this.label15.TabIndex = 26;
             this.label15.Text = "*";
             // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(203, 317);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(212, 29);
+            this.txtPassword.TabIndex = 27;
+            this.txtPassword.TabStop = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(113, 320);
+            this.label16.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(81, 24);
+            this.label16.TabIndex = 28;
+            this.label16.Text = "Пароль:";
+            // 
             // Form_register_user
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(467, 443);
+            this.ClientSize = new System.Drawing.Size(467, 483);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -395,5 +417,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label label16;
     }
 }

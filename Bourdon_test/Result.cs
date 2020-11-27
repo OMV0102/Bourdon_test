@@ -69,12 +69,13 @@ namespace Bourdon_test
             string str1 = "";
             double countErr = this.O + this.P * 100 / (Convert.ToDouble(this.level * 10) * Convert.ToDouble(this.level * 10));
             int countErrInt = Convert.ToInt32(countErr);
+            countErrInt += this.level * 10;
 
-            if (countErr >= 0 && countErr <= 20)
+            if (countErrInt >= 0 && countErrInt <= 20)
                 str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это значение выше нормы уровня концентрации внимания для взрослого человека. ";
-            else if (countErr > 20 && countErr <= 50)
+            else if (countErrInt > 20 && countErrInt <= 39)
                 str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это норма уровня концентрации внимания для взрослого человека. ";
-            else if (countErr > 50)
+            else if (countErrInt >= 40)
                 str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это значение ниже нормы уровня концентрации внимания для взрослого человека. ";
 
             str1 += "Имейте в виду, что пропущенные буквы в массиве уже проверенных рядов букв расцениваются как ошибки и влияют общий результат.\n";

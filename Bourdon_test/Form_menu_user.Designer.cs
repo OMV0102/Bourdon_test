@@ -32,12 +32,13 @@
             this.lblName = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnResultsShow = new System.Windows.Forms.Button();
+            this.btnEditUser = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnTest
             // 
             this.btnTest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTest.Location = new System.Drawing.Point(80, 59);
+            this.btnTest.Location = new System.Drawing.Point(80, 48);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(154, 37);
             this.btnTest.TabIndex = 0;
@@ -59,7 +60,7 @@
             // 
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnExit.Location = new System.Drawing.Point(80, 172);
+            this.btnExit.Location = new System.Drawing.Point(97, 213);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(137, 45);
             this.btnExit.TabIndex = 2;
@@ -71,7 +72,7 @@
             // btnResultsShow
             // 
             this.btnResultsShow.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResultsShow.Location = new System.Drawing.Point(28, 117);
+            this.btnResultsShow.Location = new System.Drawing.Point(39, 101);
             this.btnResultsShow.Name = "btnResultsShow";
             this.btnResultsShow.Size = new System.Drawing.Size(254, 37);
             this.btnResultsShow.TabIndex = 3;
@@ -80,11 +81,24 @@
             this.btnResultsShow.UseVisualStyleBackColor = true;
             this.btnResultsShow.Click += new System.EventHandler(this.btnResultsShow_Click);
             // 
+            // btnEditUser
+            // 
+            this.btnEditUser.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditUser.Location = new System.Drawing.Point(39, 153);
+            this.btnEditUser.Name = "btnEditUser";
+            this.btnEditUser.Size = new System.Drawing.Size(254, 37);
+            this.btnEditUser.TabIndex = 4;
+            this.btnEditUser.TabStop = false;
+            this.btnEditUser.Text = "Редактировать профиль";
+            this.btnEditUser.UseVisualStyleBackColor = true;
+            this.btnEditUser.Click += new System.EventHandler(this.btnEditUser_Click);
+            // 
             // Form_menu_user
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(336, 270);
+            this.Controls.Add(this.btnEditUser);
             this.Controls.Add(this.btnResultsShow);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblName);
@@ -108,5 +122,6 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnResultsShow;
+        private System.Windows.Forms.Button btnEditUser;
     }
 }

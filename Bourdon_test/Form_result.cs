@@ -34,7 +34,7 @@ namespace Bourdon_test
         private void Form_result_Load(object sender, EventArgs e)
         {
             // вывод результата на экран
-            this.labelDateCreated.Text = result.dateCreated.ToShortDateString() + result.dateCreated.ToShortTimeString();
+            this.labelDateCreated.Text = result.dateCreated.ToShortDateString() + " " + result.dateCreated.ToShortTimeString();
             this.labelt.Text = result.t.ToString() + " сек.";
             this.labelS.Text = result.S.ToString() + " зн.";
             this.labelO.Text = result.O.ToString() + " зн.";

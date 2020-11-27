@@ -20,9 +20,10 @@ namespace Bourdon_test
 
         private User user;
 
+        // Зарегестрировать пользователя
         private void btnRegisterUser_Click(object sender, EventArgs e)
         {
-            Form_register_user formRegisterUser = new Form_register_user(user.id);
+            Form_register_user formRegisterUser = new Form_register_user(user.id, true);
             formRegisterUser.Show(this);
             this.Hide();
         }
@@ -48,9 +49,10 @@ namespace Bourdon_test
             if (this.user.patronymic != String.Empty) lblName.Text += this.user.patronymic[0] + ".";
         }
 
-        // кнопка Редактирование пользователей
-        private void btnEditUser_Click(object sender, EventArgs e)
+        //TODO // кнопка Просмотр всех результатов
+        private void btnResultAllShow_Click(object sender, EventArgs e)
         {
+            
 
         }
     }
