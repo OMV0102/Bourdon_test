@@ -31,14 +31,17 @@
             this.btnTest = new System.Windows.Forms.Button();
             this.lblName = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnResultsShow = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(80, 92);
+            this.btnTest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTest.Location = new System.Drawing.Point(80, 59);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(154, 37);
             this.btnTest.TabIndex = 0;
+            this.btnTest.TabStop = false;
             this.btnTest.Text = "Пройти тест";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
@@ -56,7 +59,7 @@
             // 
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnExit.Location = new System.Drawing.Point(100, 174);
+            this.btnExit.Location = new System.Drawing.Point(80, 172);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(137, 45);
             this.btnExit.TabIndex = 2;
@@ -65,11 +68,24 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // btnResultsShow
+            // 
+            this.btnResultsShow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnResultsShow.Location = new System.Drawing.Point(28, 117);
+            this.btnResultsShow.Name = "btnResultsShow";
+            this.btnResultsShow.Size = new System.Drawing.Size(254, 37);
+            this.btnResultsShow.TabIndex = 3;
+            this.btnResultsShow.TabStop = false;
+            this.btnResultsShow.Text = "Посмотреть результаты";
+            this.btnResultsShow.UseVisualStyleBackColor = true;
+            this.btnResultsShow.Click += new System.EventHandler(this.btnResultsShow_Click);
+            // 
             // Form_menu_user
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(336, 393);
+            this.ClientSize = new System.Drawing.Size(336, 270);
+            this.Controls.Add(this.btnResultsShow);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.btnTest);
@@ -91,5 +107,6 @@
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnResultsShow;
     }
 }

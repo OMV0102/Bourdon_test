@@ -100,6 +100,24 @@ namespace Bourdon_test
             if (this.test.result.t < this.timerInterval)
                 this.test.result.t = this.timerInterval;
 
+            // обработка не просмотренных ячеек после последней выбранной
+            for (int j = colLastCell + 1; j < grid.Columns.Count; j++)
+            {
+                // подсчет пропущенных, которые нужно было отметить
+                if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[rowLastCell].Cells[j].Value)) == true)
+                    this.test.result.P++;
+            }
+
+            if(rowLastCell < grid.Rows.Count)
+                for (int i = rowLastCell + 1; i < grid.Rows.Count; i++)
+                    for (int j = 0; j < grid.Columns.Count; j++)
+                    {
+                        // подсчет пропущенных, которые нужно было отметить
+                        if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[i].Cells[j].Value)) == true)
+                            this.test.result.P++;
+                    }
+
+
             this.test.result.C = this.rowLastCell + 1; // число просмотренных строк
             this.test.result.L = this.rowLastCell * grid.Columns.Count + this.colLastCell; // общее количество просмотренных до последнего выбранного
             this.test.result.userID = this.userID; // в результат запоминаем id пользователя

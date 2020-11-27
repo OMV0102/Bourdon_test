@@ -119,7 +119,7 @@ namespace Bourdon_test
             return 0;
         }
 
-        // Добавление новго пользователя
+        // Добавление нового пользователя
         public bool registerNewUser(User user, out string errorMessage)
         {
             errorMessage = "";
@@ -148,7 +148,7 @@ namespace Bourdon_test
                     query.Parameters.AddWithValue("created_by", user.createdBy);
                     query.Parameters.AddWithValue("role", "user");
                     query.ExecuteNonQuery();
-
+                    if (conn != null) conn.Close();
                     return true;
                 }
                 catch (Exception error)
@@ -194,8 +194,72 @@ namespace Bourdon_test
                 query.Parameters.AddWithValue("p", res.P);
                 query.Parameters.AddWithValue("o", res.O);
                 query.ExecuteNonQuery();
-
+                if (conn != null) conn.Close();
                 return true;
+            }
+            catch (Exception error)
+            {
+                if (conn != null) conn.Close();
+                errorMessage = error.Message;
+                return false;
+            }
+        }
+
+        // Загрузка результатов одного пользователя
+        public bool loadResultsUser(Guid userID, out List<Result> listRes, out string errorMessage)
+        {
+            listRes = new List<Result>();
+            errorMessage = "";
+            NpgsqlConnection conn = null;
+            try
+            {
+                if (this.openConnection(Database.connectionString, out conn, out string message) == false)
+                {
+                    throw new Exception(message);
+                }
+
+                NpgsqlCommand query = null;
+                NpgsqlDataReader sqlReader = null;
+                try
+                {
+                    query = new NpgsqlCommand("SELECT id, created_date, user_id, level, t, l, c, n, s, p, o FROM public.results WHERE user_id = @user_id::uuid;", conn);
+                    query.Parameters.AddWithValue("user_id", userID.ToString());
+                    sqlReader = query.ExecuteReader();
+                }
+                catch (Exception error)
+                {
+                    throw new Exception("Ошибка доступа к базе данных при выполнении sql-запроса!\nПожалуйста, повторите попытку позже...");
+                }
+                try
+                {
+                    while (sqlReader.Read() == true)
+                    {
+                        Result temp = new Result();
+
+                        temp.id = sqlReader.GetGuid(0);
+                        temp.dateCreated =  = sqlReader.GetDateTime(1);
+                        temp.userID = sqlReader.GetGuid(2);
+                        temp.level = sqlReader.GetInt32(3);
+                        temp.t = sqlReader.GetInt32(4);
+                        temp.L = sqlReader.GetInt32(5);
+                        temp.C = sqlReader.GetInt32(6);
+                        temp.n = sqlReader.GetInt32(7);
+                        temp.S = sqlReader.GetInt32(8);
+                        temp.P = sqlReader.GetInt32(9);
+                        temp.O = sqlReader.GetInt32(10);
+
+                        listRes.Add(temp);
+                    }
+                    if (conn != null) conn.Close();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Ошибка получения данных из базы данных при выполнении sql-запроса!\nПожалуйста, повторите попытку позже...");
+                }
+
+
+
             }
             catch (Exception error)
             {

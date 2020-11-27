@@ -41,6 +41,8 @@
             this.Name = "Form_resultsList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Результаты";
+            this.Load += new System.EventHandler(this.Form_resultsList_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form_resultsList_MouseDown);
             this.ResumeLayout(false);
 
         }

@@ -48,5 +48,13 @@ namespace Bourdon_test
             form.Show(this);
             this.Hide();
         }
+
+        // кнопка Посмотреть результаты
+        private void btnResultsShow_Click(object sender, EventArgs e)
+        {
+            Form_resultsList form = new Form_resultsList(user.id);
+            form.Show(this);
+            this.Hide();
+        }
     }
 }

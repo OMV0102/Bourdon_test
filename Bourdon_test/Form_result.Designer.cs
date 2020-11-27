@@ -58,7 +58,7 @@
             // btnExit
             // 
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExit.Location = new System.Drawing.Point(559, 437);
+            this.btnExit.Location = new System.Drawing.Point(574, 429);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(110, 45);
             this.btnExit.TabIndex = 0;
@@ -164,11 +164,12 @@
             // 
             this.txtInterpretation.BackColor = System.Drawing.SystemColors.Control;
             this.txtInterpretation.DetectUrls = false;
+            this.txtInterpretation.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.txtInterpretation.Location = new System.Drawing.Point(419, 46);
             this.txtInterpretation.Name = "txtInterpretation";
             this.txtInterpretation.ReadOnly = true;
             this.txtInterpretation.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtInterpretation.Size = new System.Drawing.Size(427, 385);
+            this.txtInterpretation.Size = new System.Drawing.Size(427, 360);
             this.txtInterpretation.TabIndex = 9;
             this.txtInterpretation.TabStop = false;
             this.txtInterpretation.Text = "";

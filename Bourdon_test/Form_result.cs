@@ -40,22 +40,13 @@ namespace Bourdon_test
             this.labelO.Text = result.O.ToString() + " зн.";
             this.labelP.Text = result.P.ToString() + " зн.";
 
-            double A = result.L / Convert.ToDouble(result.t); // скорость внимания L/t
-            A = Math.Round(A, 3);
-            double T2 = result.S / Convert.ToDouble(result.n); // показатель точности работы S/n
-            T2 = Math.Round(T2, 3);
-            double E = Convert.ToDouble(result.L) * T2; // коэффициент умственной продуктивности N*T2
-            E = Math.Round(E, 3);
-            double Au = (Convert.ToDouble(result.L) / Convert.ToDouble(result.t)) * (Convert.ToDouble(result.M() - (result.O + result.P)) / Convert.ToDouble(result.n)); // умственная работоспособность (L/t)*((M-(O+P))/n)
-            Au = Math.Round(Au, 3);
-            double K = (result.M() - result.O) * 100 / Convert.ToDouble(result.n);
-            K = Math.Round(K, 3);
+            this.labelA.Text = result.A().ToString() + " зн./сек.";
+            this.labelT2.Text = result.T2().ToString();
+            this.labelE.Text = result.E().ToString() +" зн.";
+            this.labelAu.Text = result.Au().ToString() + " зн./сек.";
+            this.labelK.Text = result.K().ToString() + " %";
 
-            this.labelA.Text = A.ToString() + " зн./сек.";
-            this.labelT2.Text = T2.ToString();
-            this.labelE.Text = E.ToString() +" зн.";
-            this.labelAu.Text = Au.ToString() + " зн./сек.";
-            this.labelK.Text = K.ToString() + " %";
+            this.txtInterpretation.Text = result.getInterpretation();
 
             // если форма открылась сразу после теста, то нужно сохранить в БД
             if (this.isNeedSave == true)
