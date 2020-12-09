@@ -22,7 +22,8 @@ namespace Bourdon_test
 
         private readonly Guid userID;
         private Test test;
-        private bool[,] arrayCellSelected; // массив выбора ячеек
+        private Result result;
+        private bool[,] arrayCellActive; // массив выбора активных ячеек
         private int colLastCell = 0;
         private int rowLastCell = 0;
         private readonly int size;
@@ -46,12 +47,14 @@ namespace Bourdon_test
             if (level == 1) labelStatus.Visible = false; // при размере 1 не показывать галочку и крестик
 
             this.test = new Test(); // создание объекта класса теста
+            this.result = new Result(); // создание объекта класса результата
             // список цифр, которые нужно отмечать
             this.test.generateListDigit(this.level); // сгенерировали случайные цифры
             for (int i = 0; i < this.test.arrayDigit.Count; i++)
                 this.labelDigits.Text += this.test.arrayDigit[i].ToString() + "  ";
             // таблица цифр
             grid.DataSource = test.generateTable(size); // генерация таблицы и заполнения грида
+            this.result.n = this.test.n;
 
             // просчет размера грида и ячеек
             int cellWidth = 25; // ширина ячейки
@@ -76,11 +79,11 @@ namespace Bourdon_test
             }
 
             // массив выбора ячеек
-            arrayCellSelected = new bool[size, size];
+            arrayCellActive = new bool[size, size];
             for (int i = 0; i < grid.Columns.Count; i++)
                 for (int j = 0; j < grid.Columns.Count; j++)
                 {
-                    arrayCellSelected[i, j] = false;
+                    arrayCellActive[i, j] = false;
                 }
 
             // установки таймера
@@ -88,7 +91,7 @@ namespace Bourdon_test
             else timerInterval = 5; // интервал тика в сек
             timer.Interval = timerInterval * 1000; // интервал тика в мс
             this.isPaused = false; // паузы нет
-            this.test.result.t = 0; // 0 секунд при старте
+            this.result.t = 0; // 0 секунд при старте
             timer.Start(); // запуск таймера
         }
 
@@ -97,15 +100,15 @@ namespace Bourdon_test
         {
             this.btnPause.PerformClick(); // ставим на паузу тест (нажали на Пауза)
 
-            if (this.test.result.t < this.timerInterval)
-                this.test.result.t = this.timerInterval;
+            if (this.result.t < this.timerInterval)
+                this.result.t = this.timerInterval;
 
             // обработка не просмотренных ячеек после последней выбранной
             for (int j = colLastCell + 1; j < grid.Columns.Count; j++)
             {
                 // подсчет пропущенных, которые нужно было отметить
                 if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[rowLastCell].Cells[j].Value)) == true)
-                    this.test.result.P++;
+                    this.result.P++;
             }
 
             if(rowLastCell < grid.Rows.Count)
@@ -114,19 +117,19 @@ namespace Bourdon_test
                     {
                         // подсчет пропущенных, которые нужно было отметить
                         if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[i].Cells[j].Value)) == true)
-                            this.test.result.P++;
+                            this.result.P++;
                     }
 
 
-            this.test.result.C = this.rowLastCell + 1; // число просмотренных строк
-            this.test.result.L = this.rowLastCell * grid.Columns.Count + this.colLastCell; // общее количество просмотренных до последнего выбранного
-            this.test.result.userID = this.userID; // в результат запоминаем id пользователя
-            this.test.result.dateCreated = DateTime.Now;
-            this.test.result.level = this.level;
+            this.result.C = this.rowLastCell + 1; // число просмотренных строк
+            this.result.L = this.rowLastCell * grid.Columns.Count + this.colLastCell; // общее количество просмотренных до последнего выбранного
+            this.result.userID = this.userID; // в результат запоминаем id пользователя
+            this.result.dateCreated = DateTime.Now;
+            this.result.level = this.level;
 
             // Форма отображения результата
             // true т.к. необходимо сохранение в БД
-            Form_result form = new Form_result(this.test.result, true);
+            Form_result form = new Form_result(this.result, true);
             form.Show(this.Owner);
             this.Close();
         }
@@ -139,31 +142,31 @@ namespace Bourdon_test
             int n = grid.Columns.Count;
 
             // событие работает, если ячейка еще не была выбрана
-            if (arrayCellSelected[row, col] == false)
+            if (arrayCellActive[row, col] == false)
             {
                 // установка статуса
                 if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[row].Cells[col].Value)) == true)
                 {
                     labelStatus.Text = "✔";
                     labelStatus.ForeColor = Color.Green;
-                    this.test.result.S++; // +1 к верно выбранным
+                    this.result.S++; // +1 к верно выбранным
                 }
                 else
                 {
                     labelStatus.Text = "✖";
                     labelStatus.ForeColor = Color.Red;
-                    this.test.result.O++; // +1 к ошибочно выбранным
+                    this.result.O++; // +1 к ошибочно выбранным
                 }
 
                 // если это нулевая ячейка и она не выбрана
-                if (arrayCellSelected[0, 0] == false && (row != this.rowLastCell || col != 0))
+                if (arrayCellActive[0, 0] == false && (row != this.rowLastCell || col != 0))
                 {
-                    arrayCellSelected[0, 0] = true;
+                    arrayCellActive[0, 0] = true;
                     grid.Rows[0].Cells[0].Style.BackColor = Color.LightGray;
                     grid.Rows[0].Cells[0].Style.ForeColor = Color.DarkGray;
                     // подсчет пропущенных, которые нужно отметить
                     if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[0].Cells[0].Value)) == true)
-                        this.test.result.P++;
+                        this.result.P++;
                 }
 
                 if (row == this.rowLastCell) // если ячейка на той же строке что и прошлая
@@ -171,12 +174,12 @@ namespace Bourdon_test
                     // обработка ячеек если строка та же самая 
                     for (int j = colLastCell + 1; j < col; j++)
                     {
-                        arrayCellSelected[row, j] = true;
+                        arrayCellActive[row, j] = true;
                         grid.Rows[row].Cells[j].Style.BackColor = Color.LightGray;
                         grid.Rows[row].Cells[j].Style.ForeColor = Color.DarkGray;
                         // подсчет пропущенных, которые нужно отметить
                         if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[row].Cells[j].Value)) == true)
-                            this.test.result.P++;
+                            this.result.P++;
                     }
                 }
                 else if (row > this.rowLastCell) // если ячейка на другой строке
@@ -184,41 +187,41 @@ namespace Bourdon_test
                     // обработка ячеек на строке прошлой ячейки 
                     for (int j = colLastCell + 1; j < n; j++)
                     {
-                        arrayCellSelected[rowLastCell, j] = true;
+                        arrayCellActive[rowLastCell, j] = true;
                         grid.Rows[rowLastCell].Cells[j].Style.BackColor = Color.LightGray;
                         grid.Rows[rowLastCell].Cells[j].Style.ForeColor = Color.DarkGray;
                         // подсчет пропущенных, которые нужно отметить
                         if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[rowLastCell].Cells[j].Value)) == true)
-                            this.test.result.P++;
+                            this.result.P++;
                     }
 
                     // закрасить все ячейки после предыдущей до строки с выбранной ячейкой
                     for (int i = rowLastCell+1; i < row; i++)
                         for (int j = 0; j < n; j++)
                         {
-                            arrayCellSelected[i, j] = true;
+                            arrayCellActive[i, j] = true;
                             grid.Rows[i].Cells[j].Style.BackColor = Color.LightGray;
                             grid.Rows[i].Cells[j].Style.ForeColor = Color.DarkGray;
                             // подсчет пропущенных, которые нужно отметить
                             if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[i].Cells[j].Value)) == true)
-                                this.test.result.P++;
+                                this.result.P++;
                         }
 
                     // закрасить все ячейки в текущей строке без выбранной ячейки 
                     for (int j = 0; j < col; j++)
                     {
-                        arrayCellSelected[row, j] = true;
+                        arrayCellActive[row, j] = true;
                         grid.Rows[row].Cells[j].Style.BackColor = Color.LightGray;
                         grid.Rows[row].Cells[j].Style.ForeColor = Color.DarkGray;
                         // подсчет пропущенных, которые нужно отметить
                         if (this.test.arrayDigit.Contains(Convert.ToInt32(grid.Rows[row].Cells[j].Value)) == true)
-                            this.test.result.P++;
+                            this.result.P++;
                     }
                 }
                 // отдельная обработка самой выбранной ячейки
-                arrayCellSelected[row, col] = true;
-                grid.Rows[row].Cells[col].Style.BackColor = Color.LightGray;
-                grid.Rows[row].Cells[col].Style.ForeColor = Color.DarkGray;
+                arrayCellActive[row, col] = true;
+                grid.Rows[row].Cells[col].Style.BackColor = Color.LightGoldenrodYellow;
+                grid.Rows[row].Cells[col].Style.ForeColor = Color.Black;
 
                 this.colLastCell = col;
                 this.rowLastCell = row;
@@ -235,6 +238,7 @@ namespace Bourdon_test
                 btnPause.Text = "Продолжить";
                 grid.Visible = false;
                 isPaused = true;
+                MessageBox.Show("Тест поставлен на паузу!\nВо время паузы цифровая таблица скрыта, а таймер остановлен.", "Пауза", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
             else
             {
@@ -258,10 +262,18 @@ namespace Bourdon_test
         // событие при каждом тике таймера
         private void timer_Tick(object sender, EventArgs e)
         {
-            test.result.t += this.timerInterval;
+            this.result.t += this.timerInterval;
 
-            TimeSpan span = TimeSpan.FromSeconds(test.result.t);
+            TimeSpan span = TimeSpan.FromSeconds(this.result.t);
             labelTime.Text = span.ToString(@"mm\:ss");
+
+            if (this.result.t > this.test.tEnd) // Если время превысило максимально отведенное, то закончить
+            {
+                this.timer.Stop();
+                MessageBox.Show("Вышло максимальное время теста!\nТекущие результаты будут сохранены.", "Завершение...", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                this.btnExit.PerformClick(); // кнопка закончить
+            }
+
         }
     }
 }

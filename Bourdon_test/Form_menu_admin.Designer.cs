@@ -73,7 +73,6 @@
             // btnResultAllShow
             // 
             this.btnResultAllShow.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResultAllShow.Enabled = false;
             this.btnResultAllShow.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnResultAllShow.Location = new System.Drawing.Point(101, 146);
             this.btnResultAllShow.Name = "btnResultAllShow";

@@ -16,5 +16,19 @@ namespace Bourdon_test
         {
             InitializeComponent();
         }
+
+        // кнопка Назад
+        private void btbBack_Click(object sender, EventArgs e)
+        {
+            var form = this.Owner;
+            form.Show();
+            this.Close();
+        }
+
+        // при загрузке формы
+        private void FormResultsAll_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

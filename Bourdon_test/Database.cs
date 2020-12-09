@@ -127,6 +127,17 @@ namespace Bourdon_test
             errorMessage = "";
             listUser = null;
             NpgsqlConnection conn = null;
+            try
+            {
+
+            }
+            catch (Exception error)
+            {
+                if (conn != null) conn.Close();
+                errorMessage = error.Message;
+                return false;
+            }
+
             return false;
         }
 

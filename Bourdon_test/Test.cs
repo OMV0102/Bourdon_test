@@ -13,9 +13,11 @@ namespace Bourdon_test
 {
     class Test
     {
-        public DataTable table;
-        public List<int> arrayDigit;
-        public Result result = new Result();
+        public DataTable table; // таблица с цифровым набором
+        public List<int> arrayDigit; // цифры для отметки их в наборе
+        public int n = 0;
+        public int tEnd = 10 * 60; // Время на тест в секундах (10 минут)
+
 
         // генерация таблицы типа DataTable
         public DataTable generateTable(int size)
@@ -38,7 +40,7 @@ namespace Bourdon_test
                 {
                     int digitRandom = this.PRNG(0, 10, rng);
                     if (this.arrayDigit.Contains(digitRandom) == true)
-                        this.result.n++;
+                        this.n++;
                     row[j] = digitRandom;
                 }
                 table.Rows.Add(row);
@@ -48,7 +50,7 @@ namespace Bourdon_test
         }
 
         // генерация списка размера dim с неповторяющимися цифрами
-        public List<int> generateListDigit(int dim)
+        public List<int> generateListDigit(int number)
         {
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider(); // объект класса генератора псевдослучайных чисел
             // список возможных цифр
@@ -59,7 +61,7 @@ namespace Bourdon_test
             }
 
             arrayDigit = new List<int>();
-            for(int i = 0; i < dim; i++)
+            for(int i = 0; i < number; i++)
             {
                 int digitsIndex = this.PRNG(1, digits.Count, rng);
                 arrayDigit.Add(digits[digitsIndex]);
@@ -70,7 +72,7 @@ namespace Bourdon_test
 
         // Генератор случайного числа
         //       min включается в промежуток, max НЕ включается
-        //       Использовать ТОЛЬКО , если выделена память для rng
+        //       Использовать ТОЛЬКО, если выделена память для rng
         //       min обязательно меньше max
         private int PRNG(Int64 min, Int64 max, RNGCryptoServiceProvider rng)
         {

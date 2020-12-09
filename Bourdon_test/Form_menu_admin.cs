@@ -52,7 +52,9 @@ namespace Bourdon_test
         //TODO // кнопка Просмотр всех результатов
         private void btnResultAllShow_Click(object sender, EventArgs e)
         {
-            
+            FormResultsAll form = new FormResultsAll();
+            form.Show(this);
+            this.Hide();
 
         }
     }

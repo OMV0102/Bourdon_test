@@ -105,7 +105,7 @@ namespace Bourdon_test
         {
             Form_register_user form = new Form_register_user(true);
             form.Show(this);
-            this.Close();
+            this.Hide();
         }
     }
 }
