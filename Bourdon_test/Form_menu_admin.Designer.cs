@@ -55,7 +55,7 @@
             this.btnExit.Location = new System.Drawing.Point(126, 305);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(137, 45);
-            this.btnExit.TabIndex = 1;
+            this.btnExit.TabIndex = 20;
             this.btnExit.TabStop = false;
             this.btnExit.Text = "Выход";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -78,7 +78,7 @@
             this.btnResultAllShow.Location = new System.Drawing.Point(101, 227);
             this.btnResultAllShow.Name = "btnResultAllShow";
             this.btnResultAllShow.Size = new System.Drawing.Size(196, 62);
-            this.btnResultAllShow.TabIndex = 4;
+            this.btnResultAllShow.TabIndex = 10;
             this.btnResultAllShow.TabStop = false;
             this.btnResultAllShow.Text = "Просмотр всех результатов";
             this.btnResultAllShow.UseVisualStyleBackColor = true;

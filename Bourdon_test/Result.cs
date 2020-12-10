@@ -67,16 +67,19 @@ namespace Bourdon_test
         public string getInterpretation()
         {
             string str1 = "";
-            double countErr = this.O + this.P * 100 / (Convert.ToDouble(this.level * 10) * Convert.ToDouble(this.level * 10));
-            int countErrInt = Convert.ToInt32(countErr);
-            countErrInt += this.level * 10;
+            double countErr = (this.O + this.P) * 100 / n;
+            int countErrInt = Convert.ToInt32(Math.Abs(100 - countErr));
 
-            if (countErrInt >= 0 && countErrInt <= 20)
+            if (countErrInt >= 90 && countErrInt <= 100)
+                str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это значение гораздо выше нормы уровня концентрации внимания для взрослого человека. ";
+            else if (countErrInt >= 80 && countErrInt < 90)
                 str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это значение выше нормы уровня концентрации внимания для взрослого человека. ";
-            else if (countErrInt > 20 && countErrInt <= 39)
+            else if (countErrInt >= 68 && countErrInt < 80)
                 str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это норма уровня концентрации внимания для взрослого человека. ";
-            else if (countErrInt >= 40)
+            else if (countErrInt > 50 && countErrInt < 68)
                 str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это значение ниже нормы уровня концентрации внимания для взрослого человека. ";
+            else if (countErrInt <= 50)
+                str1 = "\tДопущение " + (this.O + this.P) + " ошибок - это значение сильно ниже нормы уровня концентрации внимания для взрослого человека. ";
 
             str1 += "Имейте в виду, что пропущенные буквы в массиве уже проверенных рядов букв расцениваются как ошибки и влияют общий результат.\n";
 

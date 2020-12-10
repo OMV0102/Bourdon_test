@@ -34,7 +34,7 @@ namespace Bourdon_test
         public Form_register_user(User userObject, bool isRegOrEdit)
         {
             this.user = userObject;
-            this.regOrEdit = isRegOrEdit;
+            this.regOrEdit = isRegOrEdit; // reg = true
             InitializeComponent();
         }
 
@@ -64,6 +64,7 @@ namespace Bourdon_test
                 txtGender.SelectedIndex = 0;
         }
 
+        // перетаскивание формы
         private void Form_register_user_MouseDown(object sender, MouseEventArgs e)
         {
             // перетаскивание окна по экрану
@@ -96,10 +97,14 @@ namespace Bourdon_test
                 Database db = new Database();
                 User user1;
                 if (this.regOrEdit == true)
+                {
                     user1 = new User(this.idCreatedBy);
+                    user1.id = Guid.NewGuid();
+                }
                 else
+                {
                     user1 = this.user;
-                user1.id = Guid.NewGuid();
+                }
                 user1.login = txtLogin.Text;
                 user1.surname = txtSurname.Text;
                 user1.name = txtName.Text;
@@ -144,6 +149,7 @@ namespace Bourdon_test
                     bool result = db.editUser(user1, out string message);
                     if (result)
                     {
+                        this.user = user1;
                         MessageBox.Show("Информация успешно обновлена!", "", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                         var form = this.Owner;
                         form.Show();
@@ -155,10 +161,12 @@ namespace Bourdon_test
                     }
                 }
             }
+        }
 
-
-
-
+        // возвращает изменный объект  user
+        public User getUserChange()
+        {
+            return user;
         }
     }
 }

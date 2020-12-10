@@ -16,11 +16,21 @@ namespace Bourdon_test
         {
             InitializeComponent();
             this.result = res;
+            this.userName = "";
+            this.isNeedSave = saveOrNot;
+        }
+
+        public Form_result(Result res, string fio, bool saveOrNot)
+        {
+            InitializeComponent();
+            this.result = res;
+            this.userName = fio;
             this.isNeedSave = saveOrNot;
         }
 
         private Result result;
         private bool isNeedSave;
+        private string userName = "";
 
         // перетаскивание окна по экрану
         private void Form_result_MouseDown(object sender, MouseEventArgs e)
@@ -33,8 +43,19 @@ namespace Bourdon_test
         // при загрузке формы
         private void Form_result_Load(object sender, EventArgs e)
         {
+            if (this.userName == "")
+            {
+                this.labelUser.Visible = false;
+            }
+            else
+            {
+                this.labelUser.Text = this.userName;
+                this.labelUser.Visible = true;
+            }
+
             // вывод результата на экран
             this.labelDateCreated.Text = result.dateCreated.ToShortDateString() + " " + result.dateCreated.ToShortTimeString();
+            labelLevel.Text = result.level.ToString();
             this.labelt.Text = result.t.ToString() + " сек.";
             this.labelS.Text = result.S.ToString() + " зн.";
             this.labelO.Text = result.O.ToString() + " зн.";

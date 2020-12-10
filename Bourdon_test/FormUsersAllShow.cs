@@ -47,10 +47,9 @@ namespace Bourdon_test
                     // добавляем пользователя в список
                     item = listUsers[i].login + "\t";
                     if (listUsers[i].patronymic == "")
-                        item += listUsers[i].surname + " " + listUsers[i].name[0] + ".";
+                        item += listUsers[i].surname + " " + listUsers[i].name[0] + "." + "\t\t";
                     else
-                        item += listUsers[i].surname + " " + listUsers[i].name[0] + "." + listUsers[i].patronymic[0] + ".";
-                    item += "\t";
+                        item += listUsers[i].surname + " " + listUsers[i].name[0] + "." + listUsers[i].patronymic[0] + "." + "\t";
                     if(listUsers[i].gender == true)
                         item += "м";
                     else
@@ -63,7 +62,24 @@ namespace Bourdon_test
         // при выборе пользователя двойным щелчком
         private void listBoxUsers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            int index = this.listBoxUsers.SelectedIndex;
 
+            Form_register_user form = new Form_register_user(this.listUsers[index], false);
+            form.ShowDialog(this);
+            User tempUser = form.getUserChange();
+            string item = "";
+            // добавляем пользователя в список
+            item = tempUser.login + "\t";
+            if (tempUser.patronymic == "")
+                item += tempUser.surname + " " + tempUser.name[0] + "." + "\t\t";
+            else
+                item += tempUser.surname + " " + tempUser.name[0] + "." + tempUser.patronymic[0] + "." + "\t";
+            if (tempUser.gender == true)
+                item += "м";
+            else
+                item += "ж";
+            this.listBoxUsers.Items.Insert(index, item);
+            this.listBoxUsers.Items.RemoveAt(index+1);
         }
 
         // перетаксивание формы
