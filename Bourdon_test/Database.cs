@@ -121,15 +121,60 @@ namespace Bourdon_test
             return 0;
         }
 
-        // TODO // Считывание всех пользователей в список
-        public bool readAllUsers(out List<User> listUser, out string errorMessage)
+        // Считывание всех пользователей в список
+        public bool loadAllUsers(out List<User> listUsers, out string errorMessage)
         {
             errorMessage = "";
-            listUser = null;
             NpgsqlConnection conn = null;
+            listUsers = new List<User>();
             try
             {
+                if (this.openConnection(Database.connectionString, out conn, out string message) == false)
+                {
+                    throw new Exception(message);
+                }
+                NpgsqlCommand query = null;
+                NpgsqlDataReader sqlReader = null;
+                try
+                {
+                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, gender, role, email, password, organization, position, created_date, created_by FROM public.users ORDER BY surname, name, patronymic;", conn);
+                    sqlReader = query.ExecuteReader();
+                }
+                catch (Exception error)
+                {
+                    throw new Exception("Ошибка доступа к базе данных при выполнении sql-запроса!\nПожалуйста, повторите попытку позже...");
+                }
 
+                try // считка пользователей
+                {
+                    while (sqlReader.Read() == true)
+                    {
+                        User user = new User();
+
+                        user.id = sqlReader.GetGuid(0);
+                        user.login = sqlReader.GetString(1);
+                        user.surname = sqlReader.GetString(2);
+                        user.name = sqlReader.GetString(3);
+                        user.patronymic = sqlReader.GetString(4);
+                        user.birthday = sqlReader.GetDateTime(5);
+                        user.gender = sqlReader.GetBoolean(6);
+                        user.role = sqlReader.GetString(7);
+                        user.email = sqlReader.GetString(8);
+                        user.passwordHash = sqlReader.GetString(9);
+                        user.organization = sqlReader.GetString(10);
+                        user.position = sqlReader.GetString(11);
+                        user.createdDate = sqlReader.GetDateTime(12);
+                        user.createdBy = sqlReader.GetGuid(13);
+
+                        listUsers.Add(user);
+                    }
+                    if (conn != null) conn.Close();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Ошибка получения данных из базы данных при выполнении sql-запроса!\nПожалуйста, повторите попытку позже...");
+                }
             }
             catch (Exception error)
             {
@@ -137,8 +182,6 @@ namespace Bourdon_test
                 errorMessage = error.Message;
                 return false;
             }
-
-            return false;
         }
 
         // Добавление нового пользователя
@@ -156,7 +199,10 @@ namespace Bourdon_test
                 NpgsqlCommand query = null;
                 try
                 {
-                    query = new NpgsqlCommand("INSERT INTO public.users (id, login, surname, name, patronymic, birthday, gender, email, password, position, organization, created_by) VALUES (@id::uuid, @login, @surname, @name, @patronymic, @birthday::timestamp, @gender::boolean, @email, @password, @position, @organization, @created_by::uuid, @role);", conn);
+                    if (user.passwordHash == "")
+                        user.passwordHash =  this.getHash(user.login);
+
+                    query = new NpgsqlCommand("INSERT INTO public.users (id, login, surname, name, patronymic, birthday, gender, email, password, position, organization, created_by, role) VALUES (@id::uuid, @login, @surname, @name, @patronymic, @birthday::timestamp, @gender::boolean, @email, @password, @position, @organization, @created_by::uuid, @role);", conn);
                     query.Parameters.AddWithValue("id", user.id);
                     query.Parameters.AddWithValue("login", user.login);
                     query.Parameters.AddWithValue("surname", user.surname);
@@ -165,7 +211,7 @@ namespace Bourdon_test
                     query.Parameters.AddWithValue("birthday", user.birthday.ToString());
                     query.Parameters.AddWithValue("gender", user.gender);
                     query.Parameters.AddWithValue("email", user.email);
-                    query.Parameters.AddWithValue("password", this.getHash(user.login));
+                    query.Parameters.AddWithValue("password", user.passwordHash);
                     query.Parameters.AddWithValue("position", user.position);
                     query.Parameters.AddWithValue("organization", user.organization);
                     query.Parameters.AddWithValue("created_by", user.createdBy);
@@ -274,7 +320,7 @@ namespace Bourdon_test
             }
         }
 
-        // Загрузка результатов одного пользователя
+        // Загрузка всех результатов одного пользователя
         public bool loadResultsUser(Guid userID, out List<Result> listRes, out string errorMessage)
         {
             listRes = new List<Result>();
@@ -326,9 +372,6 @@ namespace Bourdon_test
                 {
                     throw new Exception("Ошибка получения данных из базы данных при выполнении sql-запроса!\nПожалуйста, повторите попытку позже...");
                 }
-
-
-
             }
             catch (Exception error)
             {
@@ -370,7 +413,7 @@ namespace Bourdon_test
             }
         }
 
-        // Загрузка результата из файл
+        // Загрузка результата из файла
         public bool readResultFile(string path, out Result res, out string errorMessage)
         {
             errorMessage = "";

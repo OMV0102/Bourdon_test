@@ -21,6 +21,7 @@ namespace Bourdon_test
         public string passwordHash = String.Empty;
         public string position = String.Empty;
         public string organization = String.Empty;
+        public DateTime createdDate = DateTime.Parse("01.01.1970");
         public Guid createdBy = Guid.Empty;
 
         public User() { }
