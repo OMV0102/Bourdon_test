@@ -14,7 +14,7 @@ namespace Bourdon_test
     class Test
     {
         public DataTable table; // таблица с цифровым набором
-        public List<int> arrayDigit; // цифры для отметки их в наборе
+        public List<int> arrayDigit; // цифры для отметки их в наборе (таблице)
         public int n = 0;
         public int tEnd = 10 * 60; // Время на тест в секундах (10 минут)
 

@@ -64,6 +64,7 @@ namespace Bourdon_test
             return K;
         }
 
+        // получение интерпретации оценки
         public string getInterpretation()
         {
             string str1 = "";

@@ -61,7 +61,7 @@ namespace Bourdon_test
                 NpgsqlDataReader sqlReader = null;
                 try
                 {
-                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, gender, role, email, password, organization, position FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
+                    query = new NpgsqlCommand("SELECT аid, login, surname, name, patronymic, birthday, gender, role, email, password, organization, position FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
                     query.Parameters.AddWithValue("login", login);
                     sqlReader = query.ExecuteReader();
                 }

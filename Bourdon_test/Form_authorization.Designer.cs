@@ -48,7 +48,6 @@
             this.txt_login.Size = new System.Drawing.Size(415, 29);
             this.txt_login.TabIndex = 0;
             this.txt_login.TabStop = false;
-            this.txt_login.Text = "orlov";
             // 
             // btn_entry
             // 
@@ -73,7 +72,6 @@
             this.txt_password.Size = new System.Drawing.Size(415, 29);
             this.txt_password.TabIndex = 2;
             this.txt_password.TabStop = false;
-            this.txt_password.Text = "orlov";
             // 
             // label1
             // 
