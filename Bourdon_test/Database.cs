@@ -61,7 +61,7 @@ namespace Bourdon_test
                 NpgsqlDataReader sqlReader = null;
                 try
                 {
-                    query = new NpgsqlCommand("SELECT аid, login, surname, name, patronymic, birthday, gender, role, email, password, organization, position FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
+                    query = new NpgsqlCommand("SELECT id, login, surname, name, patronymic, birthday, gender, role, email, password, organization, position FROM public.users WHERE TRIM(login) = TRIM(@login);", conn);
                     query.Parameters.AddWithValue("login", login);
                     sqlReader = query.ExecuteReader();
                 }
@@ -77,27 +77,34 @@ namespace Bourdon_test
                 else
                     try
                     {
-                        if (this.getHash(password) != sqlReader.GetString(9).ToLower()) // если введенный пароль не совпал
+                        if (this.getHash(password).ToLower() != sqlReader.GetString(9).ToLower()) // если введенный пароль не совпал
                         {
                             throw new Exception("Неверные логин или пароль!");
                         }
                         else
                         {
-                            userObject = new User();
-                            userObject.id = sqlReader.GetGuid(0);
-                            userObject.login = login;
-                            userObject.surname = sqlReader.GetString(2);
-                            userObject.name = sqlReader.GetString(3);
-                            userObject.patronymic = sqlReader.GetString(4);
-                            userObject.birthday = sqlReader.GetDateTime(5);
-                            userObject.gender = sqlReader.GetBoolean(6);
-                            userObject.role = sqlReader.GetString(7);
-                            userObject.email = sqlReader.GetString(8);
-                            userObject.passwordHash = sqlReader.GetString(9);
-                            userObject.organization = sqlReader.GetString(10);
-                            userObject.position = sqlReader.GetString(11);
+                            try
+                            {
+                                userObject = new User();
+                                userObject.id = sqlReader.GetGuid(0);
+                                userObject.login = login;
+                                userObject.surname = sqlReader.GetString(2);
+                                userObject.name = sqlReader.GetString(3);
+                                userObject.patronymic = sqlReader.GetString(4);
+                                userObject.birthday = sqlReader.GetDateTime(5);
+                                userObject.gender = sqlReader.GetBoolean(6);
+                                userObject.role = sqlReader.GetString(7);
+                                userObject.email = sqlReader.GetString(8);
+                                userObject.passwordHash = sqlReader.GetString(9);
+                                userObject.organization = sqlReader.GetString(10);
+                                userObject.position = sqlReader.GetString(11);
 
-                            if (conn != null) conn.Close();
+                                if (conn != null) conn.Close();
+                            }
+                            catch (Exception)
+                            {
+                                throw new Exception("Ошибка получения данных из базы данных!\nПожалуйста, повторите попытку позже...");
+                            }
 
                             if (userObject.role == "user")
                                 return 1;
@@ -106,9 +113,9 @@ namespace Bourdon_test
                                 return 2;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception error1)
                     {
-                        throw new Exception("Ошибка получения данных из базы данных!\nПожалуйста, повторите попытку позже...");
+                        throw new Exception(error1.Message);
                     }
             }
             catch(Exception error)
